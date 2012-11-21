@@ -28,7 +28,7 @@ ChordialJS comes with a small but growing chord library.
 
 Usage
 -----
-For full details, see the [samples](samples.html) included, but the following snippets should give you an idea.
+For full details, see the [samples](http://laher.github.com/ChordialJS/samples.html) included, but the following snippets should give you an idea.
  1. Include chords.js and Chordial.js in script tags. Chordial.js doesn't need JQuery or any other libraries.
 
  2. Tabulate a collection of chords. In this case, the major chords for standard guitar tuning:
