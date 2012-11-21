@@ -7,7 +7,12 @@ ChordJS draws a guitar chord inside an html5 Canvas, and ChordialJS adds a libra
 
 Samples
 -------
-Go to the [samples pages](http://laher.github.com/ChordialJS/samples.html)
+A picture tells a thousand words ...
+
+ - [Common chords](http://laher.github.com/ChordialJS/sample-common-chords.html) - standard guitar tuning.
+ - [Lefty chords](http://laher.github.com/ChordialJS/sample-lefty.html) - guitar chords for left-handers.
+ - The [I-vi-IV-V progression](http://laher.github.com/ChordialJS/sample-progression1.html) for each key - standard guitar tuning.
+ - [Uke chords](http://laher.github.com/ChordialJS/sample-ukelele.html) common chordsfor the tenor ukelele.
 
 Features
 -------
