@@ -68,6 +68,36 @@ ChordialJS.chords= {
 	'G'    : [['320001','32---1']],
 	'G#/Ab': [['464544','131211']]
    }
+  },
+  //gCEA tuning
+  'ukelele' : {
+    'major' : {
+	'A'	: [['2100','21--']],
+	'B'	: [['4322','3211']],
+	'C'	: [['0003','---3']],
+	'D'	: [['2220','111-']],
+	'E'	: [['4442','2341']],
+	'F'	: [['2010','2-1-']],
+	'G'	: [['0232','-132']],
+    },
+    'minor' : {
+	'A'	: [['2000','2---']],
+	'B'	: [['4222','3111']],
+	'C'	: [['0333','-123']],
+	'D'	: [['2210','231-']],
+	'E'	: [['4432','3421']],
+	'F'	: [['1013','1-24']],
+	'G'	: [['0231','-231']],
+    },
+    'seven' : {
+	'A'	: [['0100','-1--']],
+	'B'	: [['2322','1211']],
+	'C'	: [['0001','---1']],
+	'D'	: [['2223','1112']],
+	'E'	: [['1202','12-3']],
+	'F'	: [['2313','2314']],
+	'G'	: [['0212','-213']],
+    }
   }
 };
 //TODO: VII chord should be a 'dim'
@@ -92,16 +122,16 @@ ChordialJS.chordTypes= {
 ChordialJS.reverseString= function(input) {
 	return input.split("").reverse().join("");
 };
-ChordialJS.makeChord= function(container,note,options,typ,name,tuning) {
+ChordialJS.makeChord= function(container,note,options,typ,name) {
 	if(typ == undefined) { typ='major'; }
 	if(options == undefined) { options= {}; }
 	if(options['size'] == undefined) { options['size']=3; }
-	if(tuning == undefined) { tuning = 'standard'; }
+	if(options['tuning'] == undefined) { options['tuning'] = 'standard'; }
 	if(name == undefined) { name = note + ChordialJS.chordTypes.abbreviations[typ]; }
 	var span= document.createElement('span');
 	span.setAttribute('data-name',name);
-	var positions= ChordialJS.chords[tuning][typ][note][0][0];
-	var fingers= ChordialJS.chords[tuning][typ][note][0][1];
+	var positions= ChordialJS.chords[options['tuning']][typ][note][0][0];
+	var fingers= ChordialJS.chords[options['tuning']][typ][note][0][1];
 	if(options['lefty']) {
 		positions= ChordialJS.reverseString(positions);
 		fingers= ChordialJS.reverseString(fingers);
