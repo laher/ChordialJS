@@ -5,6 +5,10 @@ Chord chart utility extending the features of ChordJS.
 
 ChordJS draws a guitar chord inside an html5 Canvas, and ChordialJS adds a library of chords, and some other bells and whistles.
 
+Samples
+-------
+Go to the [samples pages](http://laher.github.com/ChordialJS/samples.html)
+
 Features
 -------
 ### ChordialJS.chords:
