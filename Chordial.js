@@ -89,16 +89,26 @@ ChordialJS.chordTypes= {
 	'seven' : '7'
    }
 };
-ChordialJS.makeChord= function(container,note,size,typ,name,tuning) {
+ChordialJS.reverseString= function(input) {
+	return input.split("").reverse().join("");
+};
+ChordialJS.makeChord= function(container,note,options,typ,name,tuning) {
 	if(typ == undefined) { typ='major'; }
-	if(size == undefined) { size=3; }
+	if(options == undefined) { options= {}; }
+	if(options['size'] == undefined) { options['size']=3; }
 	if(tuning == undefined) { tuning = 'standard'; }
 	if(name == undefined) { name = note + ChordialJS.chordTypes.abbreviations[typ]; }
 	var span= document.createElement('span');
 	span.setAttribute('data-name',name);
-	span.setAttribute('data-positions',ChordialJS.chords[tuning][typ][note][0][0]);
-	span.setAttribute('data-fingers',ChordialJS.chords[tuning][typ][note][0][1]);
-	span.setAttribute('data-size',size);
+	var positions= ChordialJS.chords[tuning][typ][note][0][0];
+	var fingers= ChordialJS.chords[tuning][typ][note][0][1];
+	if(options['lefty']) {
+		positions= ChordialJS.reverseString(positions);
+		fingers= ChordialJS.reverseString(fingers);
+	}
+	span.setAttribute('data-positions',positions);
+	span.setAttribute('data-fingers',fingers);
+	span.setAttribute('data-size',options['size']);
 	span.appendChild(document.createTextNode(name));
 	container.appendChild(span);
 };

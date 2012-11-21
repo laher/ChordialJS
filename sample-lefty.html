@@ -4,7 +4,7 @@
 <script src="Chordial.js"></script>
 <script type="text/javascript">//<![CDATA[
 window.onload= function(){
-   var options= { 'size': 2 };
+   var options= { 'size': 2, 'lefty': true };
    for (var note in ChordialJS.chords.standard.major) {
 	ChordialJS.makeChord(document.getElementById('major'),note,options);
    } 
@@ -22,9 +22,9 @@ window.onload= function(){
 </head>
 <body>
 <h1>ChordialJS</h1>
-<h2><a href='samples.html'>Samples</a><h2>
-<h3>Common</h3>
-<p><i>Common chords for (standard guitar)</i></p>
+<h2><a href='samples.html'>Samples</a></h2>
+<h3>Lefty</h3>
+<p><i>Common chords for <b>Left-Handed</b> guitar</i></p>
 <h3>Major</h3>
 <div id='major'></div>
 <hr>

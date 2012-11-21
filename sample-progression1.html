@@ -4,17 +4,17 @@
 <script src="Chordial.js"></script>
 <script type="text/javascript">//<![CDATA[
 window.onload= function(){
-   size=2;
+   var options= { 'size': 2 };
    for (var note in ChordialJS.keys.major) {
 	var ch= ChordialJS.keys.major[note];
 	var el= document.getElementById('progression1');
 	var h4=document.createElement('h4');
 	h4.appendChild(document.createTextNode('Key of '+note));
 	el.appendChild(h4);
-	ChordialJS.makeChord(el,ch[0][0],size);
-	ChordialJS.makeChord(el,ch[5][0],size,'minor');
-	ChordialJS.makeChord(el,ch[3][0],size);
-	ChordialJS.makeChord(el,ch[4][0],size,'seven');
+	ChordialJS.makeChord(el,ch[0][0],options);
+	ChordialJS.makeChord(el,ch[5][0],options,'minor');
+	ChordialJS.makeChord(el,ch[3][0],options);
+	ChordialJS.makeChord(el,ch[4][0],options,'seven');
 	el.appendChild(document.createElement('br'));
    } 
    ChordJS.replace();
@@ -25,8 +25,9 @@ window.onload= function(){
 </head>
 <body>
 <h1>ChordialJS</h1>
-<h2>Progression 1</h2>
-<i>The I-vi-IV-V7 progression in each major key (standard guitar)</i>
+<h2><a href='samples.html'>Samples</a></h2>
+<h3>Progression 1</h3>
+<p><i>The I-vi-IV-V7 progression in each major key (standard guitar)</i></p>
 <div id='progression1'></div>
 </body>
 </html>
