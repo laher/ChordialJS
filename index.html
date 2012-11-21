@@ -1,5 +1,58 @@
 <h1>ChordialJS</h1>
 
-<p>Chord chart utility based on my fork of ChordJS.</p>
+<p>Chord chart utility extending the features of ChordJS.</p>
 
-<p>Chordial adds a library of chords and other bells and whistles.</p>
+<p>ChordJS draws a guitar chord inside an html5 Canvas, and ChordialJS adds a library of chords, and some other bells and whistles.</p>
+
+<h2>Features</h2>
+
+<h3>ChordialJS.chords:</h3>
+
+<p>ChordialJS comes with a small but growing chord library. </p>
+
+<ul>
+<li>ChordialJS.chordTypes: so far 'major', 'minor' and 'seven' chords included </li>
+<li>ChordialJS.tunings: so far, guitar (standard tuning) and ukelele (gCEA).</li>
+</ul>
+
+<h3>ChordialJS.keys, and chord progressions:</h3>
+
+<ul>
+<li>You can use the ChordialJS.keys data to tabulate chord progressions.</li>
+<li>Initially just the major keys are available for building chord progressions. </li>
+</ul>
+
+<h3>Other options:</h3>
+
+<ul>
+<li>any chord chart can easily be reversed for 'lefties'</li>
+<li>support for different 'tuning's (currently limited to standard or ukelele).</li>
+</ul>
+
+<h2>Usage</h2>
+
+<p>For full details, see the <a href="samples.html">samples</a> included, but the following snippets should give you an idea.
+ 1. Include chords.js and Chordial.js in script tags. Chordial.js doesn't need JQuery or any other libraries.</p>
+
+<ol>
+<li>Tabulate a collection of chords. In this case, the major chords for standard guitar tuning:</li>
+</ol>
+
+<p><code><pre>
+   for (var note in ChordialJS.chords.standard.major) {
+    ChordialJS.makeChord(document.getElementById('container'),note,{ 'size': 3, 'lefty': false });
+   }
+</pre></code></p>
+
+<ol>
+<li>Make a chord progression. In this example I'm creating a I,IV,V progression for each key.</li>
+</ol>
+
+<p><code><pre>
+   for (var note in ChordialJS.keys.major) {
+    var ch= ChordialJS.keys.major[note];
+    ChordialJS.makeChord(container,ch[0][0],options);
+    ChordialJS.makeChord(container,ch[3][0],options);
+    ChordialJS.makeChord(container,ch[4][0],options);
+   }
+</pre></code></p>
