@@ -1,10 +1,133 @@
-<h1>ChordialJS</h1>
+<html>
+<head>
+<title>ChordialJS - Samples</title>
+<link href="http://netdna.bootstrapcdn.com/bootswatch/2.1.1/spacelab/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">ChordialJS</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="index.html">Home</a></li>
+              <li class="active"><a href="samples.html">Samples</a></li>
+              <li><a href="https://www.github.com/laher/ChordialJS/">Code</a></li>
+              <li><a href="mailto:chordial@laher.net.nz">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
 
-<h2>Samples</h2>
+    <div class="container">
 
-<ul>
-<li><a href="sample-common-chords.html">Common chords</a> - standard guitar tuning.</li>
-<li><a href="sample-lefty.html">Lefty chords</a> - guitar chords for left-handers.</li>
-<li><a href="sample-progression1.html">I-vi-IV-V progression</a> for each key - standard guitar tuning.</li>
-<li><a href="sample-ukelele.html">Uke chords</a> - common chords for the tenor ukelele.</li>
-</ul>
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="row" style="padding-top: 60px">
+       <h1>Samples</h1>
+<p>Make some chord progressions, transpose them, mix them up ... for Guitar, Ukelele (so far)</p>
+<p>Embed these chords in any html5 website. Or not!</p>
+<p>ChordialJS adds a library of chords to a chord generator called ChordJS. Enjoy.</p>
+      </div>
+
+      <!-- Example row of columns -->
+      <div class="row">
+      		<h2>Progressions</h2>
+		<p>Try some progressions ...</p>
+		<p id='progression1'></p>
+		<p>Progression:
+		<select id="progression" onchange="change_key();">
+			<option>I-IV-V7</option>
+			<option>I-IV-V</option>
+			<option>I-vi-IV-V</option>
+			<option>I-vi-ii-V</option>
+		</select>
+		</p>
+		<p>Key:
+		<select id="key" onchange="change_key();">
+			<option>A</option>
+			<option>B</option>
+			<option>C</option>
+			<option>D</option>
+			<option>E</option>
+			<option>F</option>
+			<option selected="selected">G</option>
+		</select>
+		</p>
+		<p>Lefty?
+		<input type="checkbox" id="lefty" onchange="change_key();">
+		</p>
+		<p>Instrument:
+		<select id="instrument" onchange="change_key();">
+			<option value="standard">Guitar</option>
+			<option value="ukelele">Ukelele</option>
+		</select>
+		</p>
+     </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; Am Laher 2012</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+
+
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+<!--
+<script src="https://raw.github.com/laher/ChordJS/master/chords.js"></script>
+-->
+<script src="../ChordJS/chords.js"></script>
+<script src="Chordial.js"></script>
+<script type="text/javascript">//<![CDATA[
+window.onload= function(){
+   change_key();
+};
+var do_chords= function(key,lefty,tuning,progression) {
+   var options= { 'size': 3, 'lefty': lefty, 'tuning': tuning };
+   var ch= ChordialJS.scales.major[key];
+   var el= document.getElementById('progression1');
+var children= el.childNodes;
+for (var j = children.length-1; j >= 0; j--) {
+	el.removeChild(children[j]);
+}
+   if(progression=='I-IV-V') {
+	   ChordialJS.makeChord(el,ch[0][0],options);
+	   ChordialJS.makeChord(el,ch[3][0],options);
+	   ChordialJS.makeChord(el,ch[4][0],options);
+   } else if(progression=='I-IV-V7') {
+	   ChordialJS.makeChord(el,ch[0][0],options);
+	   ChordialJS.makeChord(el,ch[3][0],options);
+	   ChordialJS.makeChord(el,ch[4][0],options,'seven');
+   } else if(progression=='I-vi-IV-V') {
+	   ChordialJS.makeChord(el,ch[0][0],options);
+	   ChordialJS.makeChord(el,ch[5][0],options,'minor');
+	   ChordialJS.makeChord(el,ch[3][0],options);
+	   ChordialJS.makeChord(el,ch[4][0],options);
+   } else if(progression=='I-vi-ii-V') {
+	   ChordialJS.makeChord(el,ch[0][0],options);
+	   ChordialJS.makeChord(el,ch[5][0],options,'minor');
+	   ChordialJS.makeChord(el,ch[1][0],options,'minor');
+	   ChordialJS.makeChord(el,ch[4][0],options);
+   }
+   ChordJS.replace();
+};
+var change_key= function(){
+	var key= document.getElementById('key').value;
+	var lefty= document.getElementById('lefty').checked;
+	var tuning= document.getElementById('instrument').value;
+	var progression= document.getElementById('progression').value;
+	do_chords(key,lefty,tuning,progression);
+};
+//]]>
+</script>
+
+</body>
+</html>

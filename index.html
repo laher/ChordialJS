@@ -2,30 +2,6 @@
 <head>
 <title>ChordialJS</title>
 <link href="http://netdna.bootstrapcdn.com/bootswatch/2.1.1/spacelab/bootstrap.min.css" rel="stylesheet">
-<script type="text/javascript">//<![CDATA[
-window.onload= function(){
-   var key='G';
-   do_chords(key);
-};
-var do_chords= function(key) {
-   var options= { 'size': 1.5 };
-   var ch= ChordialJS.scales.major[key];
-   var el= document.getElementById('progression1');
-var children= el.childNodes;
-for (var j = children.length-1; j >= 0; j--) {
-	el.removeChild(children[j]);
-}
-	ChordialJS.makeChord(el,ch[0][0],options);
-	ChordialJS.makeChord(el,ch[3][0],options);
-	ChordialJS.makeChord(el,ch[4][0],options,'seven');
-   ChordJS.replace();
-};
-var change_key= function(){
-	var key= document.getElementById('key').value;
-	do_chords(key);
-};
-//]]>
-</script>
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -40,26 +16,10 @@ var change_key= function(){
           <div class="nav-collapse collapse">
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li class="nav-header">Nav header</li>
-                  <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
-                </ul>
-              </li>
+              <li><a href="samples.html">Samples</a></li>
+              <li><a href="https://www.github.com/laher/ChordialJS/">Code</a></li>
+              <li><a href="mailto:chordial@laher.net.nz">Contact</a></li>
             </ul>
-            <form class="navbar-form pull-right">
-              <input class="span2" type="text" placeholder="Email">
-              <input class="span2" type="password" placeholder="Password">
-              <button type="submit" class="btn">Sign in</button>
-            </form>
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -116,7 +76,7 @@ var change_key= function(){
       <hr>
 
       <footer>
-        <p>&copy; Company 2012</p>
+        <p>&copy; Am Laher 2012</p>
       </footer>
 
     </div> <!-- /container -->
@@ -129,5 +89,30 @@ var change_key= function(){
 -->
 <script src="../ChordJS/chords.js"></script>
 <script src="Chordial.js"></script>
+<script type="text/javascript">//<![CDATA[
+window.onload= function(){
+   var key='G';
+   do_chords(key);
+};
+var do_chords= function(key) {
+   var options= { 'size': 1.5 };
+   var ch= ChordialJS.scales.major[key];
+   var el= document.getElementById('progression1');
+var children= el.childNodes;
+for (var j = children.length-1; j >= 0; j--) {
+	el.removeChild(children[j]);
+}
+	ChordialJS.makeChord(el,ch[0][0],options);
+	ChordialJS.makeChord(el,ch[3][0],options);
+	ChordialJS.makeChord(el,ch[4][0],options,'seven');
+   ChordJS.replace();
+};
+var change_key= function(){
+	var key= document.getElementById('key').value;
+	do_chords(key);
+};
+//]]>
+</script>
+
 </body>
 </html>
