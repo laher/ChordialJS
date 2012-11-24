@@ -30,14 +30,28 @@
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="row" style="padding-top: 60px">
        <h1>Samples</h1>
-<p>Make some chord progressions, transpose them, mix them up ... for Guitar, Ukelele (so far)</p>
-<p>Embed these chords in any html5 website. Or not!</p>
-<p>ChordialJS adds a library of chords to a chord generator called ChordJS. Enjoy.</p>
+<p>Here's some samples to show what I'm trying to achieve. (Early days yet)</p>
       </div>
 
       <!-- Example row of columns -->
       <div class="row">
-      		<h2>Progressions</h2>
+	<div class="span6">
+		<h2>2. Heaps of chords</h2>	
+		<p>Here I've just iterated through each of the chords I have for standard guitar tuning. Note that I'll keep coming back and adding more.
+</p>
+			<h3>Major</h3>
+			<div id='major'></div>
+			<hr>
+			<h3>Minor</h3>
+			<div id='minor'></div>
+			<hr>
+			<h3>Sevenths</h3>
+			<div id='seven'></div>
+
+	</div>
+
+	<div class="span6">
+      		<h2>1. Common Progressions</h2>
 		<p>Try some progressions ...</p>
 		<p id='progression1'></p>
 		<p>Progression:
@@ -68,6 +82,7 @@
 			<option value="ukelele">Ukelele</option>
 		</select>
 		</p>
+	</div>
      </div>
 
       <hr>
@@ -81,14 +96,23 @@
 
 
 <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-<!--
 <script src="https://raw.github.com/laher/ChordJS/master/chords.js"></script>
--->
-<script src="../ChordJS/chords.js"></script>
 <script src="Chordial.js"></script>
 <script type="text/javascript">//<![CDATA[
 window.onload= function(){
    change_key();
+   var options= { 'size': 2 };
+   for (var note in ChordialJS.chords.standard.major) {
+	ChordialJS.makeChord(document.getElementById('major'),note,options);
+   } 
+   for (var note in ChordialJS.chords.standard.minor) {
+	ChordialJS.makeChord(document.getElementById('minor'),note,options,'minor');
+   }
+   for (var note in ChordialJS.chords.standard.seven) {
+	ChordialJS.makeChord(document.getElementById('seven'),note,options,'seven');
+   } 
+   ChordJS.replace();
+
 };
 var do_chords= function(key,lefty,tuning,progression) {
    var options= { 'size': 3, 'lefty': lefty, 'tuning': tuning };
