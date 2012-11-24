@@ -28,45 +28,45 @@ ChordialJS.chords= {
   //type
    'major' : {
 	'A'    : [['X02220','--123-']],
-	'A#/Bb': [['X13331','-13331']],
+	'A#'   : [['X13331','-13331']],
 	'B'    : [['X24442','-13331']],
 	'C'    : [['X32010','-32-1-']],
-	'C#/Db': [['X46664','-13331']],
+	'C#'   : [['X46664','-13331']],
 	'D'    : [['XX0232','---132']],
-	'D#/Eb': [['XX1343','--1243']],
+	'D#'   : [['XX1343','--1243']],
 	'E'    : [['022100','-231--']],
 	'F'    : [['133211','134211']],
-	'F#/Gb': [['244322','134211']],
+	'F#'   : [['244322','134211']],
 	'G'    : [['320003','21---3']],
-	'G#/Ab': [['466544','134211']]
+	'G#': [['466544','134211']]
    },
    'minor' : {
 	'A'    : [['X02210','--231-']],
-	'A#/Bb': [['X13321','-13421']],
+	'A#'   : [['X13321','-13421']],
 	'B'    : [['X24432','-13421']],
 	'C'    : [['X35543','-13421']],
-	'C#/Db': [['X46654','-13421']],
+	'C#'   : [['X46654','-13421']],
 	'D'    : [['XX0231','---132']],
-	'D#/Eb': [['XX4342','--3241']],
+	'D#'   : [['XX4342','--3241']],
 	'E'    : [['022000','-23---']],
 	'F'    : [['133111','134111']],
-	'F#/Gb': [['244222','134111']],
+	'F#'   : [['244222','134111']],
 	'G'    : [['355333','134111']],
-	'G#/Ab': [['466444','134111']]
+	'G#'   : [['466444','134111']]
    },
    'seven' : {
 	'A'    : [['X02020','--1-3-']],
-	'A#/Bb': [['X13131','-12131']],
-	'B'    : [['X24242','-12131']],
+	'A#'   : [['X13131','-12131']],
+	'B'    : [['X21202','-213-4']],
 	'C'    : [['X32310','-32-1-']],
-	'C#/Db': [['X46464','-12131']],
+	'C#'   : [['X46464','-12131']],
 	'D'    : [['XX0212','---213']],
-	'D#/Eb': [['XX1313','--1213']],
+	'D#'   : [['XX1313','--1213']],
 	'E'    : [['020100','-2-1--']],
 	'F'    : [['131211','131211']],
-	'F#/Gb': [['242322','131211']],
+	'F#'   : [['242322','131211']],
 	'G'    : [['320001','32---1']],
-	'G#/Ab': [['464544','131211']]
+	'G#'   : [['464544','131211']]
    }
   },
   //gCEA tuning
@@ -100,16 +100,43 @@ ChordialJS.chords= {
     }
   }
 };
+
+//turn a flat into a sharp for look-ups
+ChordialJS.normaliseNote= function(note) {
+	if(note.length > 1 && note.charAt(1)=='b') {
+		if(note.charAt(0)=='A') {
+			return 'G#';
+		}else if(note.charAt(0)=='C') {
+			return 'B';
+		} else if(note.charAt(0)=='F') {
+			return 'E';
+		} else {
+			return String.fromCharCode(note.charCodeAt(0) - 1) + "#";
+		}
+	} else {
+		return note;
+	}
+	
+		
+};
+
 //TODO: VII chord should be a 'dim'
-ChordialJS.keys= {
+//TODO: Minor scales
+ChordialJS.scales= {
     'major' : {
-	'A'    : [['A'],['B','minor'],['C#/Db','minor'],['D'],['E'],['F#/Gb','minor'],['G']],
-	'B'    : [['B'],['C#/Db','minor'],['D#/Eb','minor'],['E'],['F#/Gb'],['G#/Ab','minor'],['A#/Bb']],
-	'C'    : [['C'],['D','minor'],['E','minor'],['F'],['G'],['A','minor'],['A#/Bb']],
-	'D'    : [['D'],['E','minor'],['F#/Gb','minor'],['G'],['A'],['B','minor'],['C']],
-	'E'    : [['E'],['F#/Gb','minor'],['G#/Ab','minor'],['A'],['B'],['C#/Db','minor'],['D']],
-	'F'    : [['F'],['G','minor'],['A','minor'],['A#/Bb'],['C'],['D','minor'],['E']],
-	'G'    : [['G'],['A','minor'],['B','minor'],['C'],['D'],['E','minor'],['F']],
+	'Ab'    : [['Ab'],['Bb','minor'], ['C','minor'],['Db'],['Eb'], ['F','minor'],['G']],
+	'A'    : [['A'],['B','minor'], ['C#','minor'],['D'],['E'], ['F#','minor'],['G#']],
+	'Bb'    : [['Bb'],['C','minor'],['D','minor'],['Eb'],['F'],['G','minor'],['A']],
+	'B'    : [['B'],['C#','minor'],['D#','minor'],['E'],['F#'],['G#','minor'],['A#']],
+	'Cb'    : [['Cb'],['Db','minor'], ['Eb','minor'], ['Fb'],['Gb'], ['Ab','minor'], ['Bb']],
+	'C'    : [['C'],['D','minor'], ['E','minor'], ['F'],['G'], ['A','minor'], ['B']],
+	'Db'    : [['Db'],['Eb','minor'], ['F','minor'],['Gb'],['Ab'], ['Bb','minor'], ['C']],
+	'D'    : [['D'],['E','minor'], ['F#','minor'],['G'],['A'], ['B','minor'], ['C#']],
+	'Eb'   : [['Eb'],['F','minor'],['G','minor'],['Ab'],['Bb'], ['C','minor'],['D']],
+	'E'    : [['E'],['F#','minor'],['G#','minor'],['A'],['B'], ['C#','minor'],['D#']],
+	'F'    : [['F'],['G','minor'], ['A','minor'], ['Bb'],['C'],['D','minor'], ['E']],
+	'Gb'   : [['Gb'],['Ab','minor'], ['Bb','minor'], ['Cb'],['Db'], ['Eb','minor'], ['F']],
+	'G'    : [['G'],['A','minor'], ['B','minor'], ['C'],['D'], ['E','minor'], ['F#']],
     }
 };
 ChordialJS.chordTypes= {
@@ -130,8 +157,8 @@ ChordialJS.makeChord= function(container,note,options,typ,name) {
 	if(name == undefined) { name = note + ChordialJS.chordTypes.abbreviations[typ]; }
 	var span= document.createElement('span');
 	span.setAttribute('data-name',name);
-	var positions= ChordialJS.chords[options['tuning']][typ][note][0][0];
-	var fingers= ChordialJS.chords[options['tuning']][typ][note][0][1];
+	var positions= ChordialJS.chords[options['tuning']][typ][ChordialJS.normaliseNote(note)][0][0];
+	var fingers= ChordialJS.chords[options['tuning']][typ][ChordialJS.normaliseNote(note)][0][1];
 	if(options['lefty']) {
 		positions= ChordialJS.reverseString(positions);
 		fingers= ChordialJS.reverseString(fingers);

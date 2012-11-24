@@ -23,8 +23,8 @@ ChordialJS comes with a small but growing chord library.
  - ChordialJS.chordTypes: so far 'major', 'minor' and 'seven' chords included 
  - ChordialJS.tunings: so far, guitar (standard tuning) and ukelele (gCEA).
 
-### ChordialJS.keys, and chord progressions:
- - You can use the ChordialJS.keys data to tabulate chord progressions.
+### ChordialJS.scales, and chord progressions:
+ - You can use the ChordialJS.scales data to tabulate chord progressions.
  - Initially just the major keys are available for building chord progressions. 
 
 ### Other options:
@@ -47,8 +47,8 @@ For full details, see the [samples](http://laher.github.com/ChordialJS/samples.h
  3. Make a chord progression. In this example I'm creating a I,IV,V progression for each key.
 
 <code><pre>
-   for (var note in ChordialJS.keys.major) {
-	var ch= ChordialJS.keys.major[note];
+   for (var note in ChordialJS.scales.major) {
+	var ch= ChordialJS.scales.major[note];
 	ChordialJS.makeChord(container,ch[0][0],options);
 	ChordialJS.makeChord(container,ch[3][0],options);
 	ChordialJS.makeChord(container,ch[4][0],options);

@@ -5,8 +5,8 @@
 <script type="text/javascript">//<![CDATA[
 window.onload= function(){
    var options= { 'size': 2 };
-   for (var note in ChordialJS.keys.major) {
-	var ch= ChordialJS.keys.major[note];
+   for (var note in ChordialJS.scales.major) {
+	var ch= ChordialJS.scales.major[note];
 	var el= document.getElementById('progression1');
 	var h4=document.createElement('h4');
 	h4.appendChild(document.createTextNode('Key of '+note));
