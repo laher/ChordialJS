@@ -16,7 +16,7 @@ Features
 ChordialJS comes with a small but growing chord library. 
 
  - ChordialJS.chordTypes: so far 'major', 'minor' and 'seven' chords included 
- - ChordialJS.tunings: so far, guitar (standard tuning) and ukelele (gCEA).
+ - ChordialJS.tunings: so far, guitar (standard tuning) and ukulele (gCEA).
 
 ### ChordialJS.scales, and chord progressions:
  - You can use the ChordialJS.scales data to tabulate chord progressions.
@@ -24,7 +24,7 @@ ChordialJS comes with a small but growing chord library.
 
 ### Other options:
  - any chord chart can easily be reversed for 'lefties'
- - support for different 'tuning's (currently limited to standard or ukelele).
+ - support for different 'tuning's (currently limited to standard or ukulele).
 
 Code
 ----
