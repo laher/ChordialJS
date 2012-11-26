@@ -59,9 +59,9 @@ For full details, see the [samples](http://laher.github.com/ChordialJS/samples.h
 
 Build
 -----
-If you already have [grunt.js](gruntjs.com), just type `grunt`.
+If you already have [grunt.js](http://gruntjs.com), just type `grunt`.
 
-Grunt can be installed using 'npm' - the [Node.js](nodejs.org) package manager.
+Grunt can be installed using 'npm' - the [Node.js](http://nodejs.org) package manager.
 
 On Debian Linux, you install `grunt` as follows:
 
