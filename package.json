@@ -1,0 +1,23 @@
+{
+  "author": "Am Laher <chordial@laher.net.nz>",
+  "name": "Chordial",
+  "description": "Chord progressions and widgets",
+  "version": "0.0.1",
+  "homepage": "http://laher.github.com/ChordialJS/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/laher/ChordialJS.git"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "licenses": [
+    {
+      "name": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ]
+}
