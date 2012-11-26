@@ -32,25 +32,41 @@ Fork me on [GitHub](https://www.github.com/laher/ChordialJS/)
 
 For full details, see the [samples](http://laher.github.com/ChordialJS/samples.html) included, but the following snippets should give you an idea.
 
- 1. Include chords.js and Chordial.js in script tags. Chordial.js doesn't need JQuery or any other libraries.
+ 1. Include chords.js and Chordial-x.x.x.js (e.g. Chordial-0.0.1.js) in script tags. Chordial.js doesn't need JQuery or any other libraries.
 
  2. Tabulate a collection of chords. In this case, the major chords for standard guitar tuning:
 
-<code><pre>
-   for (var note in ChordialJS.chords.standard.major) {
+```html
+<script>
+   for (var note in ChordialJS.data.chords.standard.major) {
 	ChordialJS.makeChord(document.getElementById('container'),note,{ 'size': 3, 'lefty': false });
    }
-</pre></code>
+</script>
+```
 
  3. Make a chord progression. In this example I'm creating a I,IV,V progression for each key.
 
-<code><pre>
-   for (var note in ChordialJS.scales.major) {
-	var ch= ChordialJS.scales.major[note];
+```html
+<script>
+   for (var note in ChordialJS.data.scales.major) {
+	var ch= ChordialJS.data.scales.major[note];
 	ChordialJS.makeChord(container,ch[0][0],options);
 	ChordialJS.makeChord(container,ch[3][0],options);
 	ChordialJS.makeChord(container,ch[4][0],options);
    }
-</pre></code>
+</script>
+```
 
- 
+Build
+-----
+If you already have [grunt.js](gruntjs.com), just type `grunt`.
+
+Grunt can be installed using 'npm' - the [Node.js](nodejs.org) package manager.
+
+On Debian Linux, you install `grunt` as follows:
+
+```
+ sudo apt-get install npm
+ sudo npm install -g grunt
+ grunt 
+```
