@@ -21,7 +21,11 @@
  * NOTE: There must be more mathematical way to represent some of this stuff.
  * NOTE: IANAM (I am not a musician!)
  */
-var ChordialJS = {};
+var ChordialJS = {
+	'' : '',
+	'' : '',
+	'' : ''
+};
 ChordialJS.chords= {
   //tuning
   'standard' : {
@@ -116,6 +120,33 @@ ChordialJS.chords= {
   }
 };
 
+//these are the plain-jane degrees rather than the scales
+ChordialJS.degrees = {
+	'major':
+		[ 'I','II','III','IV','V','VI','VII' ],
+	'minor':
+		[ 'i','ii','iii','iv','v','vi','vii' ],
+};
+
+//Major:	I	ii	iii	IV	V	vi	vii°
+//Minor:	i	ii°	III	iv	v	VI	VII	vii°
+ChordialJS.progressions = {
+	'major':
+		{
+		'I-IV-V' :	['I','IV','V'], //(
+		'I-IV-V7' :	['I','IV','V7'],
+		'50s'	:	['I','vi','IV','V'],//50s
+		//I-IV-viio-iii-vi-ii-V-I = Circle
+		'Circle' :	['I','IV','viio','iii','vi','ii','V','I'],
+			
+		},
+	'minor':
+		{
+		'Dominant Cadence' :	['i','V','I'], //dominant cadence
+		
+		}
+};
+
 //turn a flat into a sharp for look-ups
 ChordialJS.normaliseNote= function(note) {
 	if(note.length > 1 && note.charAt(1)=='b') {
@@ -158,7 +189,8 @@ ChordialJS.chordTypes= {
     'abbreviations' : {
 	'major' : '',
 	'minor' : 'm',
-	'seven' : '7'
+	'seven' : '7',
+	'diminished' : 'o'
    }
 };
 ChordialJS.reverseString= function(input) {
