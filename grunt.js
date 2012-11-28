@@ -30,6 +30,14 @@ module.exports = function(grunt) {
       samplespart: {
 	src: ['html_parts/header.part.html','html_parts/samples.part.html','<file_template:html_parts/footer.part.html>'],
 	dest: 'samples.html'
+	},
+      indexdev: {
+	src: ['html_parts/header.part.html','html_parts/index.part.html','<file_template:html_parts/footer.dev.part.html>'],
+	dest: 'index.dev.html'
+	},
+      samplesdev: {
+	src: ['html_parts/header.part.html','html_parts/samples.part.html','<file_template:html_parts/footer.dev.part.html>'],
+	dest: 'samples.dev.html'
 	}
     },
     min: {

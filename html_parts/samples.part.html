@@ -79,8 +79,7 @@ window.onload= function(){
    for (var note in ChordialJS.data.chords.standard.seven) {
 	ChordialJS.makeChord(document.getElementById('seven'),note,options,'seven');
    } 
-   ChordJS.replace();
-
+   ChordialJS.renderElements(document.getElementsByTagName('span'));
 };
 var do_chords= function(key,lefty,tuning,progression) {
    var options= { 'size': 3, 'lefty': lefty, 'tuning': tuning };
@@ -109,7 +108,8 @@ for (var j = children.length-1; j >= 0; j--) {
 	   ChordialJS.makeChord(el,ch[1][0],options,'minor');
 	   ChordialJS.makeChord(el,ch[4][0],options);
    }
-   ChordJS.replace();
+   ChordialJS.renderElements(el.getElementsByTagName('span'));
+   //ChordJS.replace();
 };
 var change_key= function(){
 	var key= document.getElementById('key').value;

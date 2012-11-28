@@ -18,7 +18,7 @@
         <div class="span4">
           <h2>Samples</h2>
 	  <p>See some examples of Chordial in action</p>
-          <p><a href='samples' class="btn" href="#">Let's Go &raquo;</a></p>
+          <p><a href='samples.html' class="btn" href="#">Let's Go &raquo;</a></p>
         </div>
         <div class="span4">
 		<h2>Quickie</h2>
@@ -70,7 +70,7 @@ for (var j = children.length-1; j >= 0; j--) {
 	ChordialJS.makeChord(el,ch[0][0],options);
 	ChordialJS.makeChord(el,ch[3][0],options);
 	ChordialJS.makeChord(el,ch[4][0],options,'seven');
-   ChordJS.replace();
+        ChordialJS.renderElements(document.getElementsByTagName('span'));
 };
 var change_key= function(){
 	var key= document.getElementById('key').value;

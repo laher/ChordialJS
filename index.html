@@ -15,7 +15,7 @@
           <a class="brand" href="#">ChordialJS</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+              <li><a href="index.html">Home</a></li>
               <li><a href="samples.html">Samples</a></li>
               <li><a href="https://www.github.com/laher/ChordialJS/">Code</a></li>
               <li><a href="mailto:chordial@laher.net.nz">Contact</a></li>
@@ -48,7 +48,7 @@
         <div class="span4">
           <h2>Samples</h2>
 	  <p>See some examples of Chordial in action</p>
-          <p><a href='samples' class="btn" href="#">Let's Go &raquo;</a></p>
+          <p><a href='samples.html' class="btn" href="#">Let's Go &raquo;</a></p>
         </div>
         <div class="span4">
 		<h2>Quickie</h2>
@@ -100,7 +100,7 @@ for (var j = children.length-1; j >= 0; j--) {
 	ChordialJS.makeChord(el,ch[0][0],options);
 	ChordialJS.makeChord(el,ch[3][0],options);
 	ChordialJS.makeChord(el,ch[4][0],options,'seven');
-   ChordJS.replace();
+        ChordialJS.renderElements(document.getElementsByTagName('span'));
 };
 var change_key= function(){
 	var key= document.getElementById('key').value;
@@ -111,6 +111,6 @@ var change_key= function(){
 
 <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
 <script src="http://laher.github.com/ChordJS/chords.js"></script>
-<script src="dist/Chordial-0.0.2.min.js"></script>
+<script src="dist/Chordial-0.0.3.min.js"></script>
 </body>
 </html>
