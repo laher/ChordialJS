@@ -20,13 +20,13 @@ ChordialJS comes with a small but growing chord library.
  - ChordialJS.data.chordTypes: so far 'major', 'minor' and 'seven' chords included 
  - ChordialJS.data.tunings: so far, guitar (standard tuning) and ukulele (gCEA).
 
-### ChordialJS.scales, and chord progressions:
- - You can use the ChordialJS.scales data to tabulate chord progressions.
+### ChordialJS.data.scales, and chord progressions:
+ - You can use the ChordialJS.data.scales data to tabulate chord progressions.
  - Initially just the major keys are available for building chord progressions. 
 
 ### Other options:
  - any chord chart can easily be reversed for 'lefties'
- - support for different 'tuning's (currently limited to standard or ukulele).
+ - support for different 'tuning's (currently limited to standard guitar or ukulele).
 
 Code
 ----
@@ -45,10 +45,11 @@ For full details, see the [samples](http://laher.github.com/ChordialJS/samples.h
    for (var note in ChordialJS.data.chords.standard.major) {
 	ChordialJS.makeChord(document.getElementById('container'),note,{ 'size': 3, 'lefty': false });
    }
+   ChordialJS.renderElements(document.getElementsByTagName('span'));
 </script>
 ```
 
-    - Make a chord progression. In this example I'm creating a I,IV,V progression for each key.
+    - Or, make a chord progression. In this example I'm creating a I,IV,V progression for each key.
 
 ```html
 <script>
@@ -58,6 +59,7 @@ For full details, see the [samples](http://laher.github.com/ChordialJS/samples.h
 	ChordialJS.makeChord(container,ch[3][0],options);
 	ChordialJS.makeChord(container,ch[4][0],options);
    }
+   ChordialJS.renderElements(document.getElementsByTagName('span'));
 </script>
 ```
 
