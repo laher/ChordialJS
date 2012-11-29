@@ -10,10 +10,10 @@ module.exports = function(grunt) {
         ' <%= pkg.homepage ? "* " + pkg.homepage + "\n" : "" %>' +
         ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
         ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> ' + "\n */"
-    // include: '<script type="text/javascript" src="lib/<%= pkg.name %>-<%= pkg.version %>.min.js"></script>';
+    // include: '<script type="text/javascript" src="src/<%= pkg.name %>-<%= pkg.version %>.min.js"></script>';
     },
     lint: {
-      files: ['grunt.js', 'lib/**/*.js', 'test/**/*.js']
+      files: ['grunt.js', 'src/**/*.js', 'test/**/*.js']
     },
     qunit: {
       files: ['test/**/*.html']
@@ -22,10 +22,10 @@ module.exports = function(grunt) {
       dist: {
         src: ['<banner:meta.banner>', 
 					'license.txt',
-					'<file_strip_banner:lib/<%= pkg.name %>.draw.js>',
-					'<file_strip_banner:lib/<%= pkg.name %>.core.js>',
-					'<file_strip_banner:lib/<%= pkg.name %>.data.js>',
-					'lib/<%= pkg.name %>.data.js'],
+					'<file_strip_banner:src/<%= pkg.name %>.draw.js>',
+					'<file_strip_banner:src/<%= pkg.name %>.core.js>',
+					'<file_strip_banner:src/<%= pkg.name %>.data.js>',
+					'src/<%= pkg.name %>.data.js'],
         dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.js'
       },
       indexpart: {

@@ -48,8 +48,9 @@ ChordialJS.parse= {};
 
 ChordialJS.parse.parseChord = function(chord) {
      if (chord === null || 
-		typeof chord === 'undefined' || 
-		(!chord.match(/[\dxX]{6}|((1|2)?[\dxX]-){5}(1|2)?[\dxX]/) && !chord.match(/[\dxX]{4}|((1|2)?[\dxX]-){3}(1|2)?[\dxX]/))
+                typeof chord === 'undefined' || 
+                (!chord.match(/[\dxXA-Fa-f]{6}|((1|2)?[\dxX]-){5}(1|2)?[\dxX]/) && 
+                !chord.match(/[\dxXA-Fa-f]{4}|((1|2)?[\dxX]-){3}(1|2)?[\dxX]/))
                 ) {
         return { error : true };
     } else {
@@ -70,7 +71,7 @@ ChordialJS.parse.parseChord = function(chord) {
             if (parts[i].toUpperCase() === "X") {
                 ret.chordPositions[i] = -1;
             } else {
-                ret.chordPositions[i] = parseInt(parts[i],10);
+                ret.chordPositions[i] = parseInt(parts[i],16);
                 ret.maxFret = Math.max(ret.maxFret, ret.chordPositions[i]);
                 if (ret.chordPositions[i] !== 0) {
                     ret.minFret = Math.min(ret.minFret, ret.chordPositions[i]);
@@ -94,9 +95,9 @@ ChordialJS.parse.parseFingers = function(chord,fingers) {
       return fingersArray;
 };
 ChordialJS.parse.init = function(name, chord, fingers, size, style) {
-	style = typeof style !== 'undefined' ? style : { 'background-color' : '#fff' };
-	style['color'] = style['color'] ? style['color'] : '#000';
-	style['font-family'] = style['font-family'] ? style['font-family'] : 'Arial';
+        style = typeof style !== 'undefined' ? style : { 'background-color' : '#fff' };
+        style['color'] = style['color'] ? style['color'] : '#000';
+        style['font-family'] = style['font-family'] ? style['font-family'] : 'Arial';
         var stringCount= chord.length;
         //ukes show n frets. Guitars 5.
         var fretCount= stringCount > 4 ? stringCount-1 : stringCount;
@@ -334,31 +335,43 @@ ChordialJS.draw.drawBox = function(ctx,chord) {
 ChordialJS.renderElements= function(elements) {
         for (var i = 0; i < elements.length; i++) {
                 var el = elements[i];
-                var chordPos = el.getAttribute('data-positions');
-                if(chordPos !== null) {
-                        //console.log(chordPos);
-                        var chordFingers = el.getAttribute('data-fingers');
-                        var chordSize = el.getAttribute('data-size');
-                        var chordName = el.hasAttribute('data-name') ? el.getAttribute('data-name') : el.firstChild.nodeValue;
-                        var style= el.style;
-                        //important for re-jiggery
-                        if(!el.getAttribute('data-name')) { el.setAttribute('data-name', chordName); }
-                        var chord = ChordialJS.parse.init(chordName, chordPos, chordFingers, chordSize, style);
-                        var canvas = document.createElement('canvas');
-                        canvas.setAttribute('width',chord.imageWidth);
-                        canvas.setAttribute('height',chord.imageHeight);
-                        var ctx= canvas.getContext('2d');
-                        ChordialJS.draw.drawBox(ctx, chord);
-                        ChordialJS.draw.drawPositions(ctx, chord);
-                        ChordialJS.draw.drawBarres(ctx, chord);
-                        ChordialJS.draw.drawFingers(ctx, chord);
-                        ChordialJS.draw.drawName(ctx, chord);
-                        // remove existing child nodes
-                        var children= el.childNodes;
-                        for (var j = children.length-1; j >= 0; j--) {
-                                el.removeChild(children[j]);
-                        }
-                        el.appendChild(canvas);
+                ChordialJS.renderElement(el);
+        }
+};
+
+ChordialJS.renderElement= function(el) {
+        var chordPos = el.getAttribute('data-positions');
+        if(chordPos !== null) {
+                //console.log(chordPos);
+                var chordFingers = el.getAttribute('data-fingers');
+                var chordSize = el.getAttribute('data-size');
+                var chordName = el.hasAttribute('data-name') ? el.getAttribute('data-name') : el.firstChild.nodeValue;
+                var style= el.style;
+                //important for re-jiggery
+                if(!el.getAttribute('data-name')) { el.setAttribute('data-name', chordName); }
+                var chord = ChordialJS.parse.init(chordName, chordPos, chordFingers, chordSize, style);
+                var canvas = document.createElement('canvas');
+                canvas.setAttribute('width',chord.imageWidth);
+                canvas.setAttribute('height',chord.imageHeight);
+                var ctx= canvas.getContext('2d');
+                if(!chord.chordParsed.error) {
+                    ChordialJS.draw.drawBox(ctx, chord);
+                    ChordialJS.draw.drawPositions(ctx, chord);
+                    ChordialJS.draw.drawBarres(ctx, chord);
+                    ChordialJS.draw.drawFingers(ctx, chord);
                 }
+                ChordialJS.draw.drawName(ctx, chord);
+		// TODO: don't remove existing child nodes - clear and re-use canvas. 
+                var children= el.childNodes;
+                for (var j = children.length-1; j >= 0; j--) {
+                        el.removeChild(children[j]);
+                }
+		// TODO: write name as standard HTML
+		//var innerspan= document.createElement('div');
+		//innerspan.appendChild(document.createTextNode(chord.name));
+		//el.appendChild(innerspan);
+                el.appendChild(canvas);
+        } else {
+                //cant render a chord without data-positions
         }
 };
