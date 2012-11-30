@@ -368,12 +368,15 @@ ChordialJS.renderElement= function(el) {
                     ChordialJS.draw.drawFingers(ctx, chord);
                 }
                 ChordialJS.draw.drawName(ctx, chord);
-                // TODO: clear and re-use canvas
-                // remove existing child nodes
+		// TODO: don't remove existing child nodes - clear and re-use canvas. 
                 var children= el.childNodes;
                 for (var j = children.length-1; j >= 0; j--) {
                         el.removeChild(children[j]);
                 }
+		// TODO: write name as standard HTML
+		//var innerspan= document.createElement('div');
+		//innerspan.appendChild(document.createTextNode(chord.name));
+		//el.appendChild(innerspan);
                 el.appendChild(canvas);
         } else {
                 //cant render a chord without data-positions
@@ -402,10 +405,12 @@ ChordialJS.normaliseNote= function(note) {
 ChordialJS.reverseString= function(input) {
 	return input.split("").reverse().join("");
 };
+
 ChordialJS.renderChord= function(container,note,options,family,name) {
 	var span= ChordialJS.makeChord(container,note,options,family,name);
-	
+	ChordialJS.renderElement(span);
 };
+
 ChordialJS.makeChord= function(container,note,options,family,name) {
 	if(family === undefined) { family='major'; }
 	if(options === undefined) { options= {}; }
