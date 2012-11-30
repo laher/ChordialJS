@@ -78,19 +78,49 @@ ChordialJS.makeChord= function(container,note,options,family,name) {
 	if(name === undefined) { name = note + 
  (ChordialJS.data.chordTypes.abbreviations[family] !== undefined ? 
 	ChordialJS.data.chordTypes.abbreviations[family] : family); }
-	var span= document.createElement('span');
-	span.setAttribute('data-name',name);
+	var holder= document.createElement('span');
+	holder.className = 'ChordialJSContainer';
+	holder.setAttribute('data-name',name);
 	var positions= ChordialJS.data.chords[options['tuning']][family][ChordialJS.normaliseNote(note)][0][0];
 	var fingers= ChordialJS.data.chords[options['tuning']][family][ChordialJS.normaliseNote(note)][0][1];
 	if(options['lefty']) {
 		positions= ChordialJS.reverseString(positions);
 		fingers= ChordialJS.reverseString(fingers);
 	}
-	span.setAttribute('data-positions',positions);
-	span.setAttribute('data-fingers',fingers);
-	span.setAttribute('data-size',options['size']);
-	span.appendChild(document.createTextNode(name));
-	container.appendChild(span);
-	return span;
+	holder.setAttribute('data-positions',positions);
+	holder.setAttribute('data-fingers',fingers);
+	holder.setAttribute('data-size',options['size']);
+	holder.appendChild(document.createTextNode(name));
+	container.appendChild(holder);
+	return holder;
+};
+
+ChordialJS.makeScale = function(family,root) {
+	var allNotes= ChordialJS.getAllNotesFromRoot(root);
+	var intervals= ChordialJS.data.scales.intervals[family];
+	var scale=[];
+	scale.push(root);
+	var noteIndex=0;
+	for(var i=0;i<intervals.length;i++) {
+		noteIndex+=intervals[i];
+		scale.push(allNotes[noteIndex]);
+	}
+	return scale;
+};
+ChordialJS.getAllNotesFromRoot= function(root) {
+	var allNotes=[];
+	var endNotes=[];
+	var foundRoot=false;
+	for(var i=0; i<ChordialJS.data.notes.length;i++) {
+		if(root === ChordialJS.data.notes[i]) {
+			foundRoot=true;
+		}
+		if(foundRoot) {
+			allNotes.push(ChordialJS.data.notes[i]);
+		} else {
+			endNotes.push(ChordialJS.data.notes[i]);
+		}
+	}
+	return allNotes.concat(endNotes);
 };
 

@@ -251,26 +251,13 @@ ChordialJS.data = {
 		
 		}
  },
-
-//TODO: VII chord should be a 'dim'
-//TODO: Minor scales
- 'scales': {
-    'major' : {
-	'Ab'    : [['Ab'],['Bb','minor'], ['C','minor'],['Db'],['Eb'], ['F','minor'],['G']],
-	'A'    : [['A'],['B','minor'], ['C#','minor'],['D'],['E'], ['F#','minor'],['G#']],
-	'Bb'    : [['Bb'],['C','minor'],['D','minor'],['Eb'],['F'],['G','minor'],['A']],
-	'B'    : [['B'],['C#','minor'],['D#','minor'],['E'],['F#'],['G#','minor'],['A#']],
-	'Cb'    : [['Cb'],['Db','minor'], ['Eb','minor'], ['Fb'],['Gb'], ['Ab','minor'], ['Bb']],
-	'C'    : [['C'],['D','minor'], ['E','minor'], ['F'],['G'], ['A','minor'], ['B']],
-	'Db'    : [['Db'],['Eb','minor'], ['F','minor'],['Gb'],['Ab'], ['Bb','minor'], ['C']],
-	'D'    : [['D'],['E','minor'], ['F#','minor'],['G'],['A'], ['B','minor'], ['C#']],
-	'Eb'   : [['Eb'],['F','minor'],['G','minor'],['Ab'],['Bb'], ['C','minor'],['D']],
-	'E'    : [['E'],['F#','minor'],['G#','minor'],['A'],['B'], ['C#','minor'],['D#']],
-	'F'    : [['F'],['G','minor'], ['A','minor'], ['Bb'],['C'],['D','minor'], ['E']],
-	'Gb'   : [['Gb'],['Ab','minor'], ['Bb','minor'], ['Cb'],['Db'], ['Eb','minor'], ['F']],
-	'G'    : [['G'],['A','minor'], ['B','minor'], ['C'],['D'], ['E','minor'], ['F#']]
-    }
-  },
+ 'scales' : {
+	'intervals' : {
+		'major' : [2,2,1,2,2,2,1],
+		'minor' : [2,1,2,2,2,1,2]
+	}
+ },
+ 'notes' : ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],
   'chordTypes' : {
     'abbreviations' : {
 	'major' : '',

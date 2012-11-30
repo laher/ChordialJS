@@ -351,6 +351,7 @@ ChordialJS.renderElement= function(el) {
                 if(!el.getAttribute('data-name')) { el.setAttribute('data-name', chordName); }
                 var chord = ChordialJS.parse.init(chordName, chordPos, chordFingers, chordSize, style);
                 var canvas = document.createElement('canvas');
+		canvas.className= "ChordialJSChordCanvas";
                 canvas.setAttribute('width',chord.imageWidth);
                 canvas.setAttribute('height',chord.imageHeight);
                 var ctx= canvas.getContext('2d');

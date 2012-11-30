@@ -358,6 +358,7 @@ ChordialJS.renderElement= function(el) {
                 if(!el.getAttribute('data-name')) { el.setAttribute('data-name', chordName); }
                 var chord = ChordialJS.parse.init(chordName, chordPos, chordFingers, chordSize, style);
                 var canvas = document.createElement('canvas');
+		canvas.className= "ChordialJSChordCanvas";
                 canvas.setAttribute('width',chord.imageWidth);
                 canvas.setAttribute('height',chord.imageHeight);
                 var ctx= canvas.getContext('2d');
@@ -419,20 +420,50 @@ ChordialJS.makeChord= function(container,note,options,family,name) {
 	if(name === undefined) { name = note + 
  (ChordialJS.data.chordTypes.abbreviations[family] !== undefined ? 
 	ChordialJS.data.chordTypes.abbreviations[family] : family); }
-	var span= document.createElement('span');
-	span.setAttribute('data-name',name);
+	var holder= document.createElement('span');
+	holder.className = 'ChordialJSContainer';
+	holder.setAttribute('data-name',name);
 	var positions= ChordialJS.data.chords[options['tuning']][family][ChordialJS.normaliseNote(note)][0][0];
 	var fingers= ChordialJS.data.chords[options['tuning']][family][ChordialJS.normaliseNote(note)][0][1];
 	if(options['lefty']) {
 		positions= ChordialJS.reverseString(positions);
 		fingers= ChordialJS.reverseString(fingers);
 	}
-	span.setAttribute('data-positions',positions);
-	span.setAttribute('data-fingers',fingers);
-	span.setAttribute('data-size',options['size']);
-	span.appendChild(document.createTextNode(name));
-	container.appendChild(span);
-	return span;
+	holder.setAttribute('data-positions',positions);
+	holder.setAttribute('data-fingers',fingers);
+	holder.setAttribute('data-size',options['size']);
+	holder.appendChild(document.createTextNode(name));
+	container.appendChild(holder);
+	return holder;
+};
+
+ChordialJS.makeScale = function(family,root) {
+	var allNotes= ChordialJS.getAllNotesFromRoot(root);
+	var intervals= ChordialJS.data.scales.intervals[family];
+	var scale=[];
+	scale.push(root);
+	var noteIndex=0;
+	for(var i=0;i<intervals.length;i++) {
+		noteIndex+=intervals[i];
+		scale.push(allNotes[noteIndex]);
+	}
+	return scale;
+};
+ChordialJS.getAllNotesFromRoot= function(root) {
+	var allNotes=[];
+	var endNotes=[];
+	var foundRoot=false;
+	for(var i=0; i<ChordialJS.data.notes.length;i++) {
+		if(root === ChordialJS.data.notes[i]) {
+			foundRoot=true;
+		}
+		if(foundRoot) {
+			allNotes.push(ChordialJS.data.notes[i]);
+		} else {
+			endNotes.push(ChordialJS.data.notes[i]);
+		}
+	}
+	return allNotes.concat(endNotes);
 };
 
 
@@ -645,26 +676,13 @@ ChordialJS.data = {
 		
 		}
  },
-
-//TODO: VII chord should be a 'dim'
-//TODO: Minor scales
- 'scales': {
-    'major' : {
-	'Ab'    : [['Ab'],['Bb','minor'], ['C','minor'],['Db'],['Eb'], ['F','minor'],['G']],
-	'A'    : [['A'],['B','minor'], ['C#','minor'],['D'],['E'], ['F#','minor'],['G#']],
-	'Bb'    : [['Bb'],['C','minor'],['D','minor'],['Eb'],['F'],['G','minor'],['A']],
-	'B'    : [['B'],['C#','minor'],['D#','minor'],['E'],['F#'],['G#','minor'],['A#']],
-	'Cb'    : [['Cb'],['Db','minor'], ['Eb','minor'], ['Fb'],['Gb'], ['Ab','minor'], ['Bb']],
-	'C'    : [['C'],['D','minor'], ['E','minor'], ['F'],['G'], ['A','minor'], ['B']],
-	'Db'    : [['Db'],['Eb','minor'], ['F','minor'],['Gb'],['Ab'], ['Bb','minor'], ['C']],
-	'D'    : [['D'],['E','minor'], ['F#','minor'],['G'],['A'], ['B','minor'], ['C#']],
-	'Eb'   : [['Eb'],['F','minor'],['G','minor'],['Ab'],['Bb'], ['C','minor'],['D']],
-	'E'    : [['E'],['F#','minor'],['G#','minor'],['A'],['B'], ['C#','minor'],['D#']],
-	'F'    : [['F'],['G','minor'], ['A','minor'], ['Bb'],['C'],['D','minor'], ['E']],
-	'Gb'   : [['Gb'],['Ab','minor'], ['Bb','minor'], ['Cb'],['Db'], ['Eb','minor'], ['F']],
-	'G'    : [['G'],['A','minor'], ['B','minor'], ['C'],['D'], ['E','minor'], ['F#']]
-    }
-  },
+ 'scales' : {
+	'intervals' : {
+		'major' : [2,2,1,2,2,2,1],
+		'minor' : [2,1,2,2,2,1,2]
+	}
+ },
+ 'notes' : ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],
   'chordTypes' : {
     'abbreviations' : {
 	'major' : '',
@@ -929,26 +947,13 @@ ChordialJS.data = {
 		
 		}
  },
-
-//TODO: VII chord should be a 'dim'
-//TODO: Minor scales
- 'scales': {
-    'major' : {
-	'Ab'    : [['Ab'],['Bb','minor'], ['C','minor'],['Db'],['Eb'], ['F','minor'],['G']],
-	'A'    : [['A'],['B','minor'], ['C#','minor'],['D'],['E'], ['F#','minor'],['G#']],
-	'Bb'    : [['Bb'],['C','minor'],['D','minor'],['Eb'],['F'],['G','minor'],['A']],
-	'B'    : [['B'],['C#','minor'],['D#','minor'],['E'],['F#'],['G#','minor'],['A#']],
-	'Cb'    : [['Cb'],['Db','minor'], ['Eb','minor'], ['Fb'],['Gb'], ['Ab','minor'], ['Bb']],
-	'C'    : [['C'],['D','minor'], ['E','minor'], ['F'],['G'], ['A','minor'], ['B']],
-	'Db'    : [['Db'],['Eb','minor'], ['F','minor'],['Gb'],['Ab'], ['Bb','minor'], ['C']],
-	'D'    : [['D'],['E','minor'], ['F#','minor'],['G'],['A'], ['B','minor'], ['C#']],
-	'Eb'   : [['Eb'],['F','minor'],['G','minor'],['Ab'],['Bb'], ['C','minor'],['D']],
-	'E'    : [['E'],['F#','minor'],['G#','minor'],['A'],['B'], ['C#','minor'],['D#']],
-	'F'    : [['F'],['G','minor'], ['A','minor'], ['Bb'],['C'],['D','minor'], ['E']],
-	'Gb'   : [['Gb'],['Ab','minor'], ['Bb','minor'], ['Cb'],['Db'], ['Eb','minor'], ['F']],
-	'G'    : [['G'],['A','minor'], ['B','minor'], ['C'],['D'], ['E','minor'], ['F#']]
-    }
-  },
+ 'scales' : {
+	'intervals' : {
+		'major' : [2,2,1,2,2,2,1],
+		'minor' : [2,1,2,2,2,1,2]
+	}
+ },
+ 'notes' : ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],
   'chordTypes' : {
     'abbreviations' : {
 	'major' : '',

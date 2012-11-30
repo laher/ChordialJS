@@ -29,16 +29,7 @@
 		</select>
 
 		<div id="family"></div>	
-<!--
-			<h3>Major</h3>
-			<div id='major'></div>
-			<hr>
-			<h3>Minor</h3>
-			<div id='minor'></div>
-			<hr>
-			<h3>Sevenths</h3>
-			<div id='seven'></div>
--->
+
 	</div>
 
 	<div class="span6">
@@ -46,7 +37,7 @@
 		<p>Try some progressions ...</p>
 		<p id='progression1'></p>
 		<p>Progression:
-		<select id="progression" onchange="change_prog();">
+		<select id="prog_progression" onchange="change_prog();">
 			<option>I-IV-V7</option>
 			<option>I-IV-V</option>
 			<option>I-vi-IV-V</option>
@@ -54,26 +45,65 @@
 		</select>
 		</p>
 		<p>Key:
-		<select id="key" onchange="change_prog();">
+		<select id="prog_key" onchange="change_prog();">
 			<option selected="selected">C</option>
+			<option>C#</option>
 			<option>D</option>
+			<option>D#</option>
 			<option>E</option>
 			<option>F</option>
+			<option>F#</option>
 			<option>G</option>
+			<option>G#</option>
 			<option>A</option>
+			<option>A#</option>
 			<option>B</option>
 		</select>
 		Lefty?
-		<input type="checkbox" id="lefty" onchange="change_prog();">
+		<input type="checkbox" id="prog_lefty" onchange="change_prog();">
 		</p>
 		<p>Instrument:
-		<select id="instrument" onchange="change_prog();">
+		<select id="prog_instrument" onchange="change_prog();">
 			<option value="standard">Guitar</option>
 			<option value="ukulele">Ukelele</option>
 		</select>
+		
 		</p>
 	</div>
      </div>
+      <div class="row">
+	<div class="span6">
+		<h2>3. Chords By Root Note</h2>
+		<p>Just another way to view the chord data.</p>
+		<p>Root Note:
+		<select id="rootnote_rootnote" onchange="change_rootnote();">
+			<option selected="selected">C</option>
+			<option>C#</option>
+			<option>D</option>
+			<option>D#</option>
+			<option>E</option>
+			<option>F</option>
+			<option>F#</option>
+			<option>G</option>
+			<option>G#</option>
+			<option>A</option>
+			<option>A#</option>
+			<option>B</option>
+		</select>
+		Lefty?
+		<input type="checkbox" id="rootnote_lefty" onchange="change_rootnote();">
+		</p>
+		<p>Instrument:
+		<select id="rootnote_tuning" onchange="change_rootnote();">
+			<option value="standard">Guitar</option>
+			<option value="ukulele">Ukelele</option>
+		</select>
+
+		<div id="rootnote"></div>	
+
+	</div>
+      </div>
+
 
       <hr>
 
@@ -89,6 +119,7 @@
 window.onload= function(){
    change_prog();
    change_family();
+   change_rootnote();
 };
 
 var do_family= function(family,lefty,tuning) {
@@ -101,37 +132,53 @@ var do_family= function(family,lefty,tuning) {
    for (var note in ChordialJS.data.chords[tuning][family]) {
 	ChordialJS.renderChord(el,note,options,family);
    } 
-   //ChordialJS.renderElements(el.getElementsByTagName('span'));
+}
+
+var do_rootnote= function(rootnote,lefty,tuning) {
+   var options= { 'size': 2, 'lefty': lefty, 'tuning': tuning };
+   var el= document.getElementById('rootnote');
+	var children= el.childNodes;
+	for (var j = children.length-1; j >= 0; j--) {
+		el.removeChild(children[j]);
+	}
+   for (var family in ChordialJS.data.chords[tuning]) {
+	ChordialJS.renderChord(el,rootnote,options,family);
+   } 
 }
 
 var do_progs= function(key,lefty,tuning,progression) {
    var options= { 'size': 3, 'lefty': lefty, 'tuning': tuning };
-   var ch= ChordialJS.data.scales.major[key];
+   var scale= ChordialJS.makeScale('major',key); 
    var el= document.getElementById('progression1');
 	var children= el.childNodes;
 	for (var j = children.length-1; j >= 0; j--) {
 		el.removeChild(children[j]);
 	}
    if(progression=='I-IV-V') {
-	   ChordialJS.renderChord(el,ch[0][0],options);
-	   ChordialJS.renderChord(el,ch[3][0],options);
-	   ChordialJS.renderChord(el,ch[4][0],options);
+	   ChordialJS.renderChord(el,scale[0],options);
+	   ChordialJS.renderChord(el,scale[3],options);
+	   ChordialJS.renderChord(el,scale[4],options);
    } else if(progression=='I-IV-V7') {
-	   ChordialJS.renderChord(el,ch[0][0],options);
-	   ChordialJS.renderChord(el,ch[3][0],options);
-	   ChordialJS.renderChord(el,ch[4][0],options,'seven');
+	   ChordialJS.renderChord(el,scale[0],options);
+	   ChordialJS.renderChord(el,scale[3],options);
+	   ChordialJS.renderChord(el,scale[4],options,'seven');
    } else if(progression=='I-vi-IV-V') {
-	   ChordialJS.renderChord(el,ch[0][0],options);
-	   ChordialJS.renderChord(el,ch[5][0],options,'minor');
-	   ChordialJS.renderChord(el,ch[3][0],options);
-	   ChordialJS.renderChord(el,ch[4][0],options);
+	   ChordialJS.renderChord(el,scale[0],options);
+	   ChordialJS.renderChord(el,scale[5],options,'minor');
+	   ChordialJS.renderChord(el,scale[3],options);
+	   ChordialJS.renderChord(el,scale[4],options);
    } else if(progression=='I-vi-ii-V') {
-	   ChordialJS.renderChord(el,ch[0][0],options);
-	   ChordialJS.renderChord(el,ch[5][0],options,'minor');
-	   ChordialJS.renderChord(el,ch[1][0],options,'minor');
-	   ChordialJS.renderChord(el,ch[4][0],options);
+	   ChordialJS.renderChord(el,scale[0],options);
+	   ChordialJS.renderChord(el,scale[5],options,'minor');
+	   ChordialJS.renderChord(el,scale[1],options,'minor');
+	   ChordialJS.renderChord(el,scale[4],options);
    }
-   //ChordialJS.renderElements(el.getElementsByTagName('span'));
+};
+var change_rootnote= function() {
+	var rootnote= document.getElementById('rootnote_rootnote').value;
+	var lefty= document.getElementById('rootnote_lefty').checked;
+	var tuning= document.getElementById('rootnote_tuning').value;
+	do_rootnote(rootnote,lefty,tuning);
 };
 var change_family= function() {
 	var family= document.getElementById('family_family').value;
@@ -140,10 +187,11 @@ var change_family= function() {
 	do_family(family,lefty,tuning);
 };
 var change_prog= function(){
-	var key= document.getElementById('key').value;
-	var lefty= document.getElementById('lefty').checked;
-	var tuning= document.getElementById('instrument').value;
-	var progression= document.getElementById('progression').value;
+	var key= document.getElementById('prog_key').value;
+	//var scale= document.getElementById('prog_scale').value;
+	var lefty= document.getElementById('prog_lefty').checked;
+	var tuning= document.getElementById('prog_instrument').value;
+	var progression= document.getElementById('prog_progression').value;
 	do_progs(key,lefty,tuning,progression);
 };
 //]]>
