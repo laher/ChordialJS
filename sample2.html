@@ -1,0 +1,128 @@
+<html>
+<head>
+<title>ChordialJS</title>
+<link href="http://netdna.bootstrapcdn.com/bootswatch/2.1.1/spacelab/bootstrap.min.css" rel="stylesheet">
+<style type="text/css">
+body {
+padding-top: 60px;
+padding-bottom: 40px;
+}
+.sidebar-nav {
+padding: 9px 0;
+}
+select {
+   width: auto;
+}
+</style>
+
+</head>
+<body>
+   <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+         <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+               <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="index.html">ChordialJS</a>
+            <div class="nav-collapse collapse">
+               <ul class="nav">
+                 <li><a href="index.html">Home</a></li>
+                 <li><a href="samples.html">Samples</a></li>
+                 <li><a href="https://www.github.com/laher/ChordialJS/">Code</a></li>
+                 <li><a href="https://www.github.com/laher/ChordialJS/wiki">Wiki</a></li>
+                 <li><a href="https://www.github.com/laher/ChordialJS/issues">Issues</a></li>
+                 <li><a href="mailto:chordial@laher.net.nz">Contact</a></li>
+               </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+      </div>
+   </div>
+
+   <div class="container-fluid">
+
+
+  <div class="row-fluid">
+         <div class="span3">
+            <div class="well sidebar-nav">
+               <ul class="nav nav-list">
+                  <li class="nav-header">Samples</li>
+                  <li><a href="samples.html">1. Common Progressions</a></li>
+                  <li><a href="sample2.html">2. Chord Families</a></li>
+                  <li><a href="sample3.html">3. Chords by Root Note</a></li>
+               </ul>
+            </div><!--/.well -->
+         </div><!--/span-->
+         <div class="span9">
+
+
+
+		<h2>2. Chord families</h2>
+		<p>Here I've just iterated through each of the families I have. Note that I'll keep coming back and adding more.</p>
+
+		<p>Family:
+		<select id="family_family" onchange="change_family();">
+			<option>major</option>
+			<option>minor</option>
+			<option>seven</option>
+			<option>sus2</option>
+			<option>sus4</option>
+			<option>diminished</option>
+		</select>
+		Lefty?
+		<input type="checkbox" id="family_lefty" onchange="change_family();">
+
+		Instrument:
+		<select id="family_tuning" onchange="change_family();">
+			<option value="standard">Guitar</option>
+			<option value="ukulele">Ukelele</option>
+		</select>
+
+		<div id="family"></div>
+                <div style='clear:both'></div>
+
+	    </div>
+      </div>
+   </div>
+
+
+<script type="text/javascript">//<![CDATA[
+window.onload= function(){
+   change_family();
+};
+
+var do_family= function(family,lefty,tuning) {
+   var options= { 'size': 3, 'lefty': lefty, 'tuning': tuning };
+   var el= document.getElementById('family');
+	var children= el.childNodes;
+	for (var j = children.length-1; j >= 0; j--) {
+		el.removeChild(children[j]);
+	}
+   for (var note in ChordialJS.data.chords[tuning][family]) {
+	ChordialJS.renderChord(el,note,options,family);
+   }
+}
+
+var change_family= function() {
+	var family= document.getElementById('family_family').value;
+	var lefty= document.getElementById('family_lefty').checked;
+	var tuning= document.getElementById('family_tuning').value;
+	do_family(family,lefty,tuning);
+};
+
+//]]>
+</script>
+
+   </div>
+   <hr>
+   <div class="container">
+      <footer>
+        <p>&copy; Am Laher 2012</p>
+      </footer>
+   </div> <!-- /container -->
+
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+<script src="dist/Chordial-0.0.5.js"></script>
+</body>
+</html>

@@ -20,9 +20,9 @@ module.exports = function(grunt) {
     },
     concat: {
       dist: {
-        src: ['<banner:meta.banner>', 
+        src: ['<banner:meta.banner>',
 					'license.txt',
-					'<file_strip_banner:src/<%= pkg.name %>.draw.js>',
+					'<file_strip_banner:src/<%= pkg.name %>.render.js>',
 					'<file_strip_banner:src/<%= pkg.name %>.core.js>',
 					'<file_strip_banner:src/<%= pkg.name %>.data.js>',
 					'src/<%= pkg.name %>.data.js'],
@@ -32,17 +32,51 @@ module.exports = function(grunt) {
 	src: ['html_parts/header.part.html','html_parts/index.part.html','<file_template:html_parts/footer.part.html>'],
 	dest: 'index.html'
 	},
-      samplespart: {
-	src: ['html_parts/header.part.html','html_parts/samples.part.html','<file_template:html_parts/footer.part.html>'],
+      sample1part: {
+	src: ['html_parts/header.part.html',
+                  'html_parts/sampleheader.part.html',
+                  'html_parts/sample1.part.html',
+                  '<file_template:html_parts/footer.part.html>'],
 	dest: 'samples.html'
 	},
-      indexdev: {
-	src: ['html_parts/header.part.html','html_parts/index.part.html','<file_template:html_parts/footer.dev.part.html>'],
-	dest: 'index.dev.html'
+      sample2part: {
+	src: ['html_parts/header.part.html',
+                  'html_parts/sampleheader.part.html',
+                  'html_parts/sample2.part.html',
+                  '<file_template:html_parts/footer.part.html>'],
+	dest: 'sample2.html'
 	},
-      samplesdev: {
-	src: ['html_parts/header.part.html','html_parts/samples.part.html','<file_template:html_parts/footer.dev.part.html>'],
-	dest: 'samples.dev.html'
+      sample3part: {
+	src: ['html_parts/header.part.html',
+                  'html_parts/sampleheader.part.html',
+                  'html_parts/sample3.part.html',
+                  '<file_template:html_parts/footer.part.html>'],
+	dest: 'sample3.html'
+	},
+      indexdev: {
+	src: ['html_parts/header.dev.part.html','html_parts/index.part.html','<file_template:html_parts/footer.dev.part.html>'],
+	dest: 'dev/index.html'
+	},
+      sample1dev: {
+	src: ['html_parts/header.dev.part.html',
+                  'html_parts/sampleheader.part.html',
+                  'html_parts/sample1.part.html',
+                  '<file_template:html_parts/footer.dev.part.html>'],
+	dest: 'dev/samples.html'
+	},
+      sample2dev: {
+	src: ['html_parts/header.dev.part.html',
+                  'html_parts/sampleheader.part.html',
+                  'html_parts/sample2.part.html',
+                  '<file_template:html_parts/footer.dev.part.html>'],
+	dest: 'dev/sample2.html'
+	},
+      sample3dev: {
+	src: ['html_parts/header.dev.part.html',
+                  'html_parts/sampleheader.part.html',
+                  'html_parts/sample3.part.html',
+                  '<file_template:html_parts/footer.dev.part.html>'],
+	dest: 'dev/sample3.html'
 	}
     },
     min: {

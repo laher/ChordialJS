@@ -58,22 +58,10 @@ select {
 
 
 
-      		<h2>1. Common Progressions</h2>
-                <p>Try some progressions ...</p>
-                <p>
-
-                <label for="prog_progression">
-                Progression:</label>
-		<select id="prog_progression" onchange="change_prog();">
-			<option>I-IV-V7</option>
-			<option>I-IV-V</option>
-			<option>I-vi-IV-V</option>
-			<option>I-vi-ii-V</option>
-		</select>
-
-                <label for="prog_key">
-                Key:</label>
-		<select id="prog_key" onchange="change_prog();">
+		<h2>3. Chords by Root Note</h2>
+		<p>Just another way to view the chord data.</p>
+		<p>Root Note:
+		<select id="rootnote_rootnote" onchange="change_rootnote();">
 			<option selected="selected">C</option>
 			<option>C#</option>
 			<option>D</option>
@@ -87,68 +75,44 @@ select {
 			<option>A#</option>
 			<option>B</option>
 		</select>
-                <label for="prog_lefty">
-                   Lefty?</label>
-		<input type="checkbox" id="prog_lefty" onchange="change_prog();">
-               <label for="prog_instrument">
-                  Instrument:
-               </label>
-		<select id="prog_instrument" onchange="change_prog();">
+		Lefty?
+		<input type="checkbox" id="rootnote_lefty" onchange="change_rootnote();">
+		Instrument:
+		<select id="rootnote_tuning" onchange="change_rootnote();">
 			<option value="standard">Guitar</option>
 			<option value="ukulele">Ukelele</option>
 		</select>
 
-                </p>
-               <div id='progression1'></div>
-               <div style='clear:both'></div>
-     </div>
+		<div id="rootnote"></div>
+                <div style='clear:both'></div>
+
+         </div>
       </div>
    </div>
 
-
-
-
 <script type="text/javascript">//<![CDATA[
 window.onload= function(){
-   change_prog();
+   change_rootnote();
 };
-var do_progs= function(key,lefty,tuning,progression) {
-   var options= { 'size': 4, 'lefty': lefty, 'tuning': tuning };
-   var scale= ChordialJS.makeScale('major',key);
-   var el= document.getElementById('progression1');
+var do_rootnote= function(rootnote,lefty,tuning) {
+   var options= { 'size': 3, 'lefty': lefty, 'tuning': tuning };
+   var el= document.getElementById('rootnote');
 	var children= el.childNodes;
 	for (var j = children.length-1; j >= 0; j--) {
 		el.removeChild(children[j]);
 	}
-   if(progression=='I-IV-V') {
-	   ChordialJS.renderChord(el,scale[0],options);
-	   ChordialJS.renderChord(el,scale[3],options);
-	   ChordialJS.renderChord(el,scale[4],options);
-   } else if(progression=='I-IV-V7') {
-	   ChordialJS.renderChord(el,scale[0],options);
-	   ChordialJS.renderChord(el,scale[3],options);
-	   ChordialJS.renderChord(el,scale[4],options,'seven');
-   } else if(progression=='I-vi-IV-V') {
-	   ChordialJS.renderChord(el,scale[0],options);
-	   ChordialJS.renderChord(el,scale[5],options,'minor');
-	   ChordialJS.renderChord(el,scale[3],options);
-	   ChordialJS.renderChord(el,scale[4],options);
-   } else if(progression=='I-vi-ii-V') {
-	   ChordialJS.renderChord(el,scale[0],options);
-	   ChordialJS.renderChord(el,scale[5],options,'minor');
-	   ChordialJS.renderChord(el,scale[1],options,'minor');
-	   ChordialJS.renderChord(el,scale[4],options);
+   for (var family in ChordialJS.data.chords[tuning]) {
+	ChordialJS.renderChord(el,rootnote,options,family);
    }
+}
+
+var change_rootnote= function() {
+	var rootnote= document.getElementById('rootnote_rootnote').value;
+	var lefty= document.getElementById('rootnote_lefty').checked;
+	var tuning= document.getElementById('rootnote_tuning').value;
+	do_rootnote(rootnote,lefty,tuning);
 };
 
-var change_prog= function(){
-	var key= document.getElementById('prog_key').value;
-	//var scale= document.getElementById('prog_scale').value;
-	var lefty= document.getElementById('prog_lefty').checked;
-	var tuning= document.getElementById('prog_instrument').value;
-	var progression= document.getElementById('prog_progression').value;
-	do_progs(key,lefty,tuning,progression);
-};
 //]]>
 </script>
 

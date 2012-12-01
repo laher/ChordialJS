@@ -1,62 +1,3 @@
-<html>
-<head>
-<title>ChordialJS</title>
-<link href="http://netdna.bootstrapcdn.com/bootswatch/2.1.1/spacelab/bootstrap.min.css" rel="stylesheet">
-<style type="text/css">
-body {
-padding-top: 60px;
-padding-bottom: 40px;
-}
-.sidebar-nav {
-padding: 9px 0;
-}
-select {
-   width: auto;
-}
-</style>
-
-</head>
-<body>
-   <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-         <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-               <span class="icon-bar"></span>
-            </a>
-            <a class="brand" href="index.html">ChordialJS</a>
-            <div class="nav-collapse collapse">
-               <ul class="nav">
-                 <li><a href="index.html">Home</a></li>
-                 <li><a href="samples.html">Samples</a></li>
-                 <li><a href="https://www.github.com/laher/ChordialJS/">Code</a></li>
-                 <li><a href="https://www.github.com/laher/ChordialJS/wiki">Wiki</a></li>
-                 <li><a href="https://www.github.com/laher/ChordialJS/issues">Issues</a></li>
-                 <li><a href="mailto:chordial@laher.net.nz">Contact</a></li>
-               </ul>
-            </div><!--/.nav-collapse -->
-        </div>
-      </div>
-   </div>
-
-   <div class="container-fluid">
-
-
-  <div class="row-fluid">
-         <div class="span3">
-            <div class="well sidebar-nav">
-               <ul class="nav nav-list">
-                  <li class="nav-header">Samples</li>
-                  <li><a href="samples.html">1. Common Progressions</a></li>
-                  <li><a href="sample2.html">2. Chord Families</a></li>
-                  <li><a href="sample3.html">3. Chords by Root Note</a></li>
-               </ul>
-            </div><!--/.well -->
-         </div><!--/span-->
-         <div class="span9">
-
-
 
       		<h2>1. Common Progressions</h2>
                 <p>Try some progressions ...</p>
@@ -113,7 +54,7 @@ window.onload= function(){
    change_prog();
 };
 var do_progs= function(key,lefty,tuning,progression) {
-   var options= { 'size': 4, 'lefty': lefty, 'tuning': tuning };
+   var options= { 'size': 3, 'lefty': lefty, 'tuning': tuning };
    var scale= ChordialJS.makeScale('major',key);
    var el= document.getElementById('progression1');
 	var children= el.childNodes;
@@ -151,16 +92,3 @@ var change_prog= function(){
 };
 //]]>
 </script>
-
-   </div>
-   <hr>
-   <div class="container">
-      <footer>
-        <p>&copy; Am Laher 2012</p>
-      </footer>
-   </div> <!-- /container -->
-
-<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-<script src="dist/Chordial-0.0.5.js"></script>
-</body>
-</html>

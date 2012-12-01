@@ -1,7 +1,7 @@
 /**
  * ChordialJS
  * ==========
- * 
+ *
  * Data and progression-building code
  * ----------------------------------
  * Progression-building code is mine, built on top of ChordJS, as mentioned below.
@@ -10,7 +10,7 @@
  * ChordialJS
  * https://github.com/laher/ChordialJS
  * Copyright (C) 2012 Am Laher [am@laher.net.nz]
- * 
+ *
  * Drawing code
  * ------------
  * Drawing and parsing code originally form ChordJS, but it's been a bit rewritten for speed & efficiency.
@@ -58,8 +58,8 @@ ChordialJS.normaliseNote= function(note) {
 	} else {
 		return note;
 	}
-	
-		
+
+
 };
 ChordialJS.reverseString= function(input) {
 	return input.split("").reverse().join("");
@@ -75,11 +75,12 @@ ChordialJS.makeChord= function(container,note,options,family,name) {
 	if(options === undefined) { options= {}; }
 	if(options['size'] === undefined) { options['size']=3; }
 	if(options['tuning'] === undefined) { options['tuning'] = 'standard'; }
-	if(name === undefined) { name = note + 
- (ChordialJS.data.chordTypes.abbreviations[family] !== undefined ? 
+	if(name === undefined) { name = note +
+ (ChordialJS.data.chordTypes.abbreviations[family] !== undefined ?
 	ChordialJS.data.chordTypes.abbreviations[family] : family); }
-	var holder= document.createElement('span');
-	holder.className = 'ChordialJSContainer';
+	var holder= document.createElement('div');
+	holder.className = 'ChordialChordContainer';
+        holder.style['float']= 'left';
 	holder.setAttribute('data-name',name);
 	var positions= ChordialJS.data.chords[options['tuning']][family][ChordialJS.normaliseNote(note)][0][0];
 	var fingers= ChordialJS.data.chords[options['tuning']][family][ChordialJS.normaliseNote(note)][0][1];
@@ -94,7 +95,19 @@ ChordialJS.makeChord= function(container,note,options,family,name) {
 	container.appendChild(holder);
 	return holder;
 };
-
+ChordialJS.splitNameAndSuper= function(name_plain) {
+   var name;
+   var supers;
+   if (name_plain.indexOf('_') === -1) {
+       name = name_plain;
+       supers = "";
+   } else {
+       var parts = name_plain.split('_');
+       name = parts[0];
+       supers = parts[1];
+   }
+   return [name, supers];
+};
 ChordialJS.makeScale = function(family,root) {
 	var allNotes= ChordialJS.getAllNotesFromRoot(root);
 	var intervals= ChordialJS.data.scales.intervals[family];

@@ -1,7 +1,7 @@
 {
   "name": "Chordial",
   "description": "Chord progressions and widgets",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "homepage": "http://laher.github.com/ChordialJS/",
   "author": "Am Laher <chordial@laher.net.nz>",
   "repository": {

@@ -1,0 +1,58 @@
+
+		<h2>3. Chords by Root Note</h2>
+		<p>Just another way to view the chord data.</p>
+		<p>Root Note:
+		<select id="rootnote_rootnote" onchange="change_rootnote();">
+			<option selected="selected">C</option>
+			<option>C#</option>
+			<option>D</option>
+			<option>D#</option>
+			<option>E</option>
+			<option>F</option>
+			<option>F#</option>
+			<option>G</option>
+			<option>G#</option>
+			<option>A</option>
+			<option>A#</option>
+			<option>B</option>
+		</select>
+		Lefty?
+		<input type="checkbox" id="rootnote_lefty" onchange="change_rootnote();">
+		Instrument:
+		<select id="rootnote_tuning" onchange="change_rootnote();">
+			<option value="standard">Guitar</option>
+			<option value="ukulele">Ukelele</option>
+		</select>
+
+		<div id="rootnote"></div>
+                <div style='clear:both'></div>
+
+         </div>
+      </div>
+   </div>
+
+<script type="text/javascript">//<![CDATA[
+window.onload= function(){
+   change_rootnote();
+};
+var do_rootnote= function(rootnote,lefty,tuning) {
+   var options= { 'size': 3, 'lefty': lefty, 'tuning': tuning };
+   var el= document.getElementById('rootnote');
+	var children= el.childNodes;
+	for (var j = children.length-1; j >= 0; j--) {
+		el.removeChild(children[j]);
+	}
+   for (var family in ChordialJS.data.chords[tuning]) {
+	ChordialJS.renderChord(el,rootnote,options,family);
+   }
+}
+
+var change_rootnote= function() {
+	var rootnote= document.getElementById('rootnote_rootnote').value;
+	var lefty= document.getElementById('rootnote_lefty').checked;
+	var tuning= document.getElementById('rootnote_tuning').value;
+	do_rootnote(rootnote,lefty,tuning);
+};
+
+//]]>
+</script>
