@@ -13,6 +13,9 @@ padding: 9px 0;
 select {
    width: auto;
 }
+label {
+   display: inline;
+}
 </style>
 
 </head>
@@ -40,19 +43,23 @@ select {
       </div>
    </div>
 
-   <div class="container-fluid">
 
 
+   <div class="container">
       <!-- Main hero unit for a primary marketing message or call to action -->
-      <div class="hero-unit">
-	<div style='float:right'>
-		<div>
-		<span id="B7" data-positions="X21202" data-fingers="-213-4" data-size="3" data-name="B7" style="color:blue">B7</span>
+      <div class="jumbotron subhead">
+         <!--
+         <div style='float:right'>
+	    <div>
+		<div id="B71" data-positions="X21202" data-fingers="-213-4" data-size="3" data-name="B7" style="color:blue">B7</div>&nbsp;
+		<div id="B72" data-positions="X21202" data-fingers="-213-4" data-size="2" data-name="B7" style="color:green">B7</div>&nbsp;
+		<div id="B73" data-positions="X21202" data-fingers="-213-4" data-size="1" data-name="B7" style="color:purple">B7</div>&nbsp;
 
-	</div>
-	</div>
-       <h1>Welcome to Chordial</h1>
-<p>Make some chord progressions, transpose them, mix them up ... for Guitar, Ukelele (so far)</p>
+           </div>
+        </div>
+        -->
+         <h1>Welcome to Chordial</h1>
+         <p>Make some chord progressions, transpose them, mix them up ... for Guitar, Ukelele (so far)</p>
 <p>Embed these chords in any html5 website. Or not!</p>
 <p>ChordialJS adds a library of chords to a chord generator called ChordJS. Enjoy.</p>
         <p><a href='samples.html' class="btn btn-primary btn-large">Try it &raquo;</a></p>
@@ -101,7 +108,9 @@ select {
 window.onload= function(){
    var key='G';
    do_chords(key);
-   ChordialJS.renderElement(document.getElementById('B7'));
+   //ChordialJS.renderElement(document.getElementById('B71'));
+   //ChordialJS.renderElement(document.getElementById('B72'));
+   //ChordialJS.renderElement(document.getElementById('B73'));
 };
 var do_chords= function(key) {
    var options= { 'size': 1.5 };
