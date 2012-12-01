@@ -1,4 +1,4 @@
-/** Chordial - v0.0.4 - 2012-11-30
+/** Chordial - v0.0.4 - 2012-12-01
  * http://laher.github.com/ChordialJS/
  * Copyright (c) 2012 ; Licensed  
  */
@@ -680,15 +680,21 @@ ChordialJS.data = {
 	'intervals' : {
 		'major' : [2,2,1,2,2,2,1],
 		'minor' : [2,1,2,2,2,1,2]
+	},
+	'chordtypes' : {
+		'major' : ['major','minor',     'minor','major','major','minor','diminished'],
+		'minor' : ['minor','diminished','major','minor','minor','major','major'] //natural
 	}
  },
  'notes' : ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],
   'chordTypes' : {
     'abbreviations' : {
 	'major' : '',
-	'minor' : 'm',
-	'seven' : '7',
-	'diminished' : '_o'
+	'minor' : '_m',
+	'seven' : '_7',
+	'diminished' : '_o',
+	'sus2' : '_sus2',
+	'sus4' : '_sus4'
    }
   }
 };
@@ -951,15 +957,21 @@ ChordialJS.data = {
 	'intervals' : {
 		'major' : [2,2,1,2,2,2,1],
 		'minor' : [2,1,2,2,2,1,2]
+	},
+	'chordtypes' : {
+		'major' : ['major','minor',     'minor','major','major','minor','diminished'],
+		'minor' : ['minor','diminished','major','minor','minor','major','major'] //natural
 	}
  },
  'notes' : ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],
   'chordTypes' : {
     'abbreviations' : {
 	'major' : '',
-	'minor' : 'm',
-	'seven' : '7',
-	'diminished' : '_o'
+	'minor' : '_m',
+	'seven' : '_7',
+	'diminished' : '_o',
+	'sus2' : '_sus2',
+	'sus4' : '_sus4'
    }
   }
 };

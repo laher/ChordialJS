@@ -4,9 +4,10 @@
  - Start wiki
 
 ## Samples
- - Improve chord family sample
- - Site links to Wiki & issues
- - Custom chord builder?
+ - <s>Improve chord family sample</s>
+ - <s>Site links to Wiki & issues</s>
+ - <s>Root note sample</s>
+ - Custom progression builder?
 
 ## Data
  - Turn data into jsonp?
@@ -14,11 +15,11 @@
  - Add minor chord progressions ?
 
 ## Drawing
- - MakeAndRender
- - renderElement
+ - <s>MakeAndRender</s>
+ - <s>renderElement</s>
  - caching for grid etc
  - canvas layers?
 
 ## Bells
- - Custom chord builder code? i.e. build a sequence either I/II/... or from a key or just random chords.
+ - Custom progression builder code? i.e. build a sequence either I/II/... or from a key or just random chords.
  - Chord calculator?

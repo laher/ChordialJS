@@ -255,15 +255,21 @@ ChordialJS.data = {
 	'intervals' : {
 		'major' : [2,2,1,2,2,2,1],
 		'minor' : [2,1,2,2,2,1,2]
+	},
+	'chordtypes' : {
+		'major' : ['major','minor',     'minor','major','major','minor','diminished'],
+		'minor' : ['minor','diminished','major','minor','minor','major','major'] //natural
 	}
  },
  'notes' : ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],
   'chordTypes' : {
     'abbreviations' : {
 	'major' : '',
-	'minor' : 'm',
-	'seven' : '7',
-	'diminished' : '_o'
+	'minor' : '_m',
+	'seven' : '_7',
+	'diminished' : '_o',
+	'sus2' : '_sus2',
+	'sus4' : '_sus4'
    }
   }
 };
