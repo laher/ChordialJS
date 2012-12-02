@@ -96,6 +96,7 @@ var ChordialJS = {
         return {
             name: name,
             size: options['size'],
+            lefty: options['lefty'],
             note: note,
             tuning: options['tuning'],
             family: family
