@@ -22,8 +22,8 @@ module.exports = function(grunt) {
       dist: {
         src: ['<banner:meta.banner>',
 					'license.txt',
-					'<file_strip_banner:src/<%= pkg.name %>.render.js>',
 					'<file_strip_banner:src/<%= pkg.name %>.core.js>',
+					'<file_strip_banner:src/<%= pkg.name %>.render.js>',
 					'<file_strip_banner:src/<%= pkg.name %>.data.js>',
 					'src/<%= pkg.name %>.data.js'],
         dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.js'

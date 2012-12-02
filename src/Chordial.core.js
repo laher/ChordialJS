@@ -42,9 +42,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-var ChordialJS = ChordialJS || {};
+var ChordialJS = {
+
 //turn a flat into a sharp for look-ups
-ChordialJS.normaliseNote= function(note) {
+   normaliseNote : function(note) {
 	if(note.length > 1 && note.charAt(1)==='b') {
 		if(note.charAt(0)==='A') {
 			return 'G#';
@@ -58,19 +59,33 @@ ChordialJS.normaliseNote= function(note) {
 	} else {
 		return note;
 	}
-
-
-};
-ChordialJS.reverseString= function(input) {
+   },
+   reverseString : function(input) {
 	return input.split("").reverse().join("");
-};
+   },
+   //get existing charts. TODO! integrate this!
+   getExistingCharts : function(container) {
+      var children = container.childNodes;
+      var charts= [];
+      for(var j=0;j<children.length;j++) {
+            if(children[j].nodeType===1) {
+               //Container?
+               if(children[j].className==='ChordialChordContainer') {
+                  charts.push(children[j]);
+               }
+            }
+      }
+      return charts;
+   },
+   makeChord : function(parentElement,note,options,family,name) { //name family and options are optional
+      var chord= this.cleanInput(note,options,family,name);
+      var container= this.makeChordContainer(chord);
+      parentElement.appendChild(container);
+      return container;
+   },
 
-ChordialJS.renderChord= function(container,note,options,family,name) {
-	var span= ChordialJS.makeChord(container,note,options,family,name);
-	ChordialJS.renderElement(span);
-};
-
-ChordialJS.makeChord= function(container,note,options,family,name) {
+   cleanInput : function(note,options,family,name) { //name family and options are optional
+      //clean input
 	if(family === undefined) { family='major'; }
 	if(options === undefined) { options= {}; }
 	if(options['size'] === undefined) { options['size']=3; }
@@ -78,38 +93,51 @@ ChordialJS.makeChord= function(container,note,options,family,name) {
 	if(name === undefined) { name = note +
  (ChordialJS.data.chordTypes.abbreviations[family] !== undefined ?
 	ChordialJS.data.chordTypes.abbreviations[family] : family); }
+        return {
+            name: name,
+            size: options['size'],
+            note: note,
+            tuning: options['tuning'],
+            family: family
+        };
+   },
+
+   makeChordContainer : function(chord) {
+   //make a container div
 	var holder= document.createElement('div');
 	holder.className = 'ChordialChordContainer';
         holder.style['float']= 'left';
-	holder.setAttribute('data-name',name);
-	var positions= ChordialJS.data.chords[options['tuning']][family][ChordialJS.normaliseNote(note)][0][0];
-	var fingers= ChordialJS.data.chords[options['tuning']][family][ChordialJS.normaliseNote(note)][0][1];
-	if(options['lefty']) {
-		positions= ChordialJS.reverseString(positions);
-		fingers= ChordialJS.reverseString(fingers);
+	holder.setAttribute('data-name',chord.name);
+   //look up positions & fingers
+	var positions= ChordialJS.data.chords[chord.tuning][chord.family][this.normaliseNote(chord.note)][0][0];
+	var fingers= ChordialJS.data.chords[chord.tuning][chord.family][this.normaliseNote(chord.note)][0][1];
+	if(chord.lefty) {
+		positions= this.reverseString(positions);
+		fingers= this.reverseString(fingers);
 	}
-	holder.setAttribute('data-positions',positions);
-	holder.setAttribute('data-fingers',fingers);
-	holder.setAttribute('data-size',options['size']);
-	holder.appendChild(document.createTextNode(name));
-	container.appendChild(holder);
+   //set attributes
+	holder.setAttribute('data-positions', positions);
+	holder.setAttribute('data-fingers', fingers);
+	holder.setAttribute('data-size', chord.size);
+	holder.appendChild(document.createTextNode(chord.name));
 	return holder;
-};
-ChordialJS.splitNameAndSuper= function(name_plain) {
-   var name;
-   var supers;
-   if (name_plain.indexOf('_') === -1) {
-       name = name_plain;
-       supers = "";
-   } else {
-       var parts = name_plain.split('_');
-       name = parts[0];
-       supers = parts[1];
-   }
-   return [name, supers];
-};
-ChordialJS.makeScale = function(family,root) {
-	var allNotes= ChordialJS.getAllNotesFromRoot(root);
+   },
+
+   splitNameAndSuper : function(name_plain) {
+      var name;
+      var supers;
+      if (name_plain.indexOf('_') === -1) {
+          name = name_plain;
+          supers = "";
+      } else {
+          var parts = name_plain.split('_');
+          name = parts[0];
+          supers = parts[1];
+      }
+      return [name, supers];
+   },
+   makeScale : function(family,root) {
+	var allNotes= this.getAllNotesFromRoot(root);
 	var intervals= ChordialJS.data.scales.intervals[family];
 	var scale=[];
 	scale.push(root);
@@ -119,8 +147,8 @@ ChordialJS.makeScale = function(family,root) {
 		scale.push(allNotes[noteIndex]);
 	}
 	return scale;
-};
-ChordialJS.getAllNotesFromRoot= function(root) {
+   },
+   getAllNotesFromRoot : function(root) {
 	var allNotes=[];
 	var endNotes=[];
 	var foundRoot=false;
@@ -135,5 +163,13 @@ ChordialJS.getAllNotesFromRoot= function(root) {
 		}
 	}
 	return allNotes.concat(endNotes);
+   }
 };
+
+
+ChordialJS.renderChord = function(parentElement,note,options,family,name) {
+	var container= ChordialJS.makeChord(parentElement,note,options,family,name);
+	ChordialJS.renderElement(container);
+};
+
 

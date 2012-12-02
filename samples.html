@@ -14,7 +14,16 @@ select {
    width: auto;
 }
 label {
-   display: inline;
+   display: inline-block;
+   margin-left: 1em;
+}
+legend {
+   width: auto;
+   margin-bottom: auto;
+   border: none;
+}
+fieldset {
+   border: 1px solid #E5E5E5;
 }
 </style>
 
@@ -64,9 +73,11 @@ label {
       		<h2>1. Common Progressions</h2>
                 <p>Try some progressions ...</p>
                 <p>
-
+               <form>
+                  <fieldset>
+                     <legend>Options</legend>
                 <label for="prog_progression">
-                Progression:</label>
+                Progression</label>
 		<select id="prog_progression" onchange="change_prog();">
 			<option>I-IV-V7</option>
 			<option>I-IV-V</option>
@@ -75,7 +86,7 @@ label {
 		</select>
 
                 <label for="prog_key">
-                Key:</label>
+                Key</label>
 		<select id="prog_key" onchange="change_prog();">
 			<option selected="selected">C</option>
 			<option>C#</option>
@@ -94,13 +105,14 @@ label {
                    Lefty?</label>
 		<input type="checkbox" id="prog_lefty" onchange="change_prog();">
                <label for="prog_instrument">
-                  Instrument:
+                  Instrument
                </label>
 		<select id="prog_instrument" onchange="change_prog();">
 			<option value="standard">Guitar</option>
 			<option value="ukulele">Ukelele</option>
 		</select>
-
+                  </fieldset>
+                </form>
                 </p>
                <div id='progression1'></div>
                <div style='clear:both'></div>

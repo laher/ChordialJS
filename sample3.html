@@ -14,7 +14,16 @@ select {
    width: auto;
 }
 label {
-   display: inline;
+   display: inline-block;
+   margin-left: 1em;
+}
+legend {
+   width: auto;
+   margin-bottom: auto;
+   border: none;
+}
+fieldset {
+   border: 1px solid #E5E5E5;
 }
 </style>
 
@@ -63,7 +72,13 @@ label {
 
 		<h2>3. Chords by Root Note</h2>
 		<p>Just another way to view the chord data.</p>
-		<p>Root Note:
+                <p>
+
+               <form>
+                  <fieldset>
+                     <legend>Options</legend>
+                <label for="rootnote_rootnote">
+                Root Note</label>
 		<select id="rootnote_rootnote" onchange="change_rootnote();">
 			<option selected="selected">C</option>
 			<option>C#</option>
@@ -78,14 +93,17 @@ label {
 			<option>A#</option>
 			<option>B</option>
 		</select>
-		Lefty?
+                <label for="rootnote_lefty">
+                   Lefty?</label>
 		<input type="checkbox" id="rootnote_lefty" onchange="change_rootnote();">
-		Instrument:
+                <label for="rootnote_tuning">
+                   Instrument</label>
 		<select id="rootnote_tuning" onchange="change_rootnote();">
 			<option value="standard">Guitar</option>
 			<option value="ukulele">Ukelele</option>
 		</select>
-
+                  </fieldset>
+               </form>
 		<div id="rootnote"></div>
                 <div style='clear:both'></div>
 
