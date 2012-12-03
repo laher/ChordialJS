@@ -44,15 +44,21 @@ window.onload= function(){
 };
 
 var do_family= function(family,lefty,tuning) {
-   var options= { 'size': 3, 'lefty': lefty, 'tuning': tuning };
+   var size=3;
    var el= document.getElementById('family');
-	var children= el.childNodes;
-	for (var j = children.length-1; j >= 0; j--) {
+   var children= el.childNodes;
+   var definitions=[];
+/*
+   for (var j = children.length-1; j >= 0; j--) {
 		el.removeChild(children[j]);
-	}
+                }*/
+
    for (var note in ChordialJS.data.chords[tuning][family]) {
-	ChordialJS.renderChord(el,note,options,family);
+      definitions.push({
+            note: note, size : size, lefty: lefty, tuning: tuning, family: family
+            });
    }
+   ChordialJS.renderChords(el,definitions);
 }
 
 var change_family= function() {

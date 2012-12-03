@@ -66,16 +66,15 @@ window.onload= function(){
    //ChordialJS.renderElement(document.getElementById('B73'));
 };
 var do_chords= function(key) {
-   var options= { 'size': 1.5 };
+   var size= 2,lefty=false;
    var scale= ChordialJS.makeScale('major',key);
    var el= document.getElementById('progression1');
    var children= el.childNodes;
-   for (var j = children.length-1; j >= 0; j--) {
-	el.removeChild(children[j]);
-   }
-	ChordialJS.renderChord(el,scale[0],options);
-	ChordialJS.renderChord(el,scale[3],options);
-	ChordialJS.renderChord(el,scale[4],options,'seven');
+   ChordialJS.renderChords(el, [
+            { note: scale[0], size: size, lefty: lefty },
+            { note: scale[3], size: size, lefty: lefty },
+            { note: scale[4], size: size, lefty: lefty, family: 'seven' },
+            ]);
 };
 var change_key= function(){
 	var key= document.getElementById('key').value;

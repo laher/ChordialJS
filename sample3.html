@@ -1,5 +1,6 @@
 <html>
-<head>
+   <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 <title>ChordialJS</title>
 <link href="http://netdna.bootstrapcdn.com/bootswatch/2.1.1/spacelab/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
@@ -116,14 +117,15 @@ window.onload= function(){
    change_rootnote();
 };
 var do_rootnote= function(rootnote,lefty,tuning) {
-   var options= { 'size': 3, 'lefty': lefty, 'tuning': tuning };
+   var size= 3;
    var el= document.getElementById('rootnote');
-	var children= el.childNodes;
-	for (var j = children.length-1; j >= 0; j--) {
-		el.removeChild(children[j]);
-	}
+   var children= el.childNodes;
+   var definitions=[];
    for (var family in ChordialJS.data.chords[tuning]) {
-	ChordialJS.renderChord(el,rootnote,options,family);
+      definitions.push({
+            note: rootnote, size : size, lefty: lefty, tuning: tuning, family: family
+            });
+      ChordialJS.renderChords(el,definitions);
    }
 }
 
@@ -146,6 +148,6 @@ var change_rootnote= function() {
    </div> <!-- /container -->
 
 <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-<script src="dist/Chordial-0.0.6.js"></script>
+<script src="dist/Chordial-0.0.7.js"></script>
 </body>
 </html>

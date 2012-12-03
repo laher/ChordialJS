@@ -103,8 +103,9 @@ ChordialJS.parse = {
    },
 
    parseSizes : function(size, stringCount) {
-        //ukes show n frets. Guitars 5.
-        var fretCount= stringCount > 4 ? stringCount-1 : stringCount;
+        //ukes show 5 frets. Guitars 5.
+        //var fretCount= stringCount > 4 ? stringCount-1 : stringCount;
+        var fretCount= 5;
         var fretWidth= 4*size;
         var nutHeight = fretWidth / 2;
         var markerWidth = 0.7 * fretWidth;
@@ -169,6 +170,9 @@ ChordialJS.parse = {
 };
 
 ChordialJS.render = {
+   CLASS_CANVAS_BG : 'ChordialCanvasBg',
+   CLASS_CANVAS_FG : 'ChordialCanvasFg',
+   CLASS_CANVASDIV : 'ChordialCanvasDiv',
    drawName : function(ctx,chord) {
             var nameAndSuper= ChordialJS.splitNameAndSuper(chord.name);
             var name= nameAndSuper[0];
@@ -327,48 +331,42 @@ ChordialJS.render = {
                 ctx.fill();
        }
    },
+   newBgCanvas : function(el,chord) {
+      return this.newChordCanvas(el,chord,this.CLASS_CANVAS_BG);
+   },
+   newFgCanvas : function(el, chord) {
+      return this.newChordCanvas(el,chord,this.CLASS_CANVAS_FG);
 
-   newChordCanvas : function(el,chord) {
+   },
+   newChordCanvas : function(el,chord,clz) {
       var canvas = document.createElement('canvas');
-      canvas.className= "ChordialChordCanvas";
-      canvas.setAttribute('width',chord.parsed.sizes.imageWidth);
-      canvas.setAttribute('height',chord.parsed.sizes.imageHeight);
+      canvas.className= clz;
+          canvas.style['top']='0';
+      canvas.style['left']='0';
+      canvas.style.position='absolute';
+      this.updateCanvasDimensions(el,chord,canvas);
+      el.appendChild(canvas);
       return canvas;
    },
-   drawNameDiv : function(el,chord) {
-    var inner= document.createElement('div');
-    inner.className="ChordialNameDiv";
-    inner.style['text-align']='center';
-    inner.style.width='100%';
-    inner.style.padding="0px";
-    inner.style.margin="0px";
-    var mainSpan= document.createElement('span');
-    var superSpan= document.createElement('sup');
-    inner.appendChild(mainSpan);
-    var nameAndSuper= ChordialJS.splitNameAndSuper(chord.name);
-    mainSpan.appendChild(document.createTextNode(nameAndSuper[0]));
-    superSpan.appendChild(document.createTextNode(nameAndSuper[1]));
-    inner.appendChild(mainSpan);
-    inner.appendChild(superSpan);
-    el.appendChild(inner);
+   updateCanvasDimensions : function(el,chord,canvas) {
+      el.style.width = chord.parsed.sizes.imageWidth + 'px';
+      canvas.setAttribute('width',chord.parsed.sizes.imageWidth);
+      el.style.height = chord.parsed.sizes.imageHeight + 'px';
+      canvas.setAttribute('height',chord.parsed.sizes.imageHeight);
    },
    clearCanvas : function(canvas) {
         var context= canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
-   }
-};
+   },
 
-
-ChordialJS.renderElements= function(elements) {
+   renderElements : function(elements) {
         for (var i = 0; i < elements.length; i++) {
                 var el = elements[i];
-                this.renderElement(el);
+                this.renderElement(el, i);
         }
-};
+   },
 
-
-
-ChordialJS.renderElement= function(el) {
+   renderElement : function(el) {
         var chordPos = el.getAttribute('data-positions');
         if(chordPos !== null && chordPos !== undefined) {
                 //get or make name
@@ -393,34 +391,38 @@ ChordialJS.renderElement= function(el) {
                   name : chordName,
                   style : el.style
                };
-               console.log(chord);
-                chord.parsed = ChordialJS.parse.parse(chord);
-                var children= el.childNodes;
-                var canvas;
-                //1. remove direct text nodes. These will be replaced with a div.
-                //2. see if there's already a canvas there. If so, use it.
-                for (var j = children.length-1; j >= 0; j--) {
-                        if(children[j].nodeType===3) {
-                                el.removeChild(children[j]);
-                        } else if(children[j].nodeName === "canvas") {
-                                //re-use!
-                                canvas= children[j];
-                        }
-                }
-                if(canvas === undefined) {
-                        ChordialJS.render.drawNameDiv(el,chord);
-                        canvas= ChordialJS.render.newChordCanvas(el,chord);
-                        el.appendChild(canvas);
+               //console.log(chord);
+               chord.parsed = ChordialJS.parse.parse(chord);
+               var canvasHolder= ChordialJS.getFirstChildTagClass(el,"DIV",this.CLASS_CANVASDIV);
+               var bgCanvas,fgCanvas;
+               bgCanvas= ChordialJS.getFirstChildTagClass(canvasHolder,"CANVAS",this.CLASS_CANVAS_BG);
+               fgCanvas= ChordialJS.getFirstChildTagClass(canvasHolder,"CANVAS",this.CLASS_CANVAS_FG);
+               var drawBox=false;
+
+               if(bgCanvas === undefined) {
+                  bgCanvas= ChordialJS.render.newBgCanvas(canvasHolder,chord);
+                  fgCanvas= ChordialJS.render.newFgCanvas(canvasHolder,chord);
+                  drawBox=true;
                 }  else {
-                        ChordialJS.clearCanvas(canvas);
+                  //console.log(bgCanvas.getAttribute('width') + ' ' +chord.parsed.sizes.imageWidth);
+                  if(parseInt(bgCanvas.getAttribute('width'),10) !== chord.parsed.sizes.imageWidth) {
+                     this.updateCanvasDimensions(canvasHolder,chord,bgCanvas);
+                     this.updateCanvasDimensions(canvasHolder,chord,fgCanvas);
+                     this.clearCanvas(bgCanvas);
+                     drawBox=true;
+                  }
+                  this.clearCanvas(fgCanvas);
                 }
-                var ctx= canvas.getContext('2d');
+               if(drawBox) {
+                  var bgCtx= bgCanvas.getContext('2d');
+                  ChordialJS.render.drawBox(bgCtx, chord);
+               }
+                var fgCtx= fgCanvas.getContext('2d');
                 if(!chord.parsed.positions.error) {
-                    console.log("Parsed chord OK");
-                    ChordialJS.render.drawBox(ctx, chord);
-                    ChordialJS.render.drawPositions(ctx, chord);
-                    ChordialJS.render.drawBarres(ctx, chord);
-                    ChordialJS.render.drawFingers(ctx, chord);
+                    //console.log("Parsed chord OK");
+                    ChordialJS.render.drawPositions(fgCtx, chord);
+                    ChordialJS.render.drawBarres(fgCtx, chord);
+                    ChordialJS.render.drawFingers(fgCtx, chord);
                 } else {
                    //log?
                    console.log("Error parsing chord");
@@ -431,5 +433,6 @@ ChordialJS.renderElement= function(el) {
                 //cant render a chord without data-positions
                 //console.log("No data-positions available to draw a chord");
         }
+   }
 };
 

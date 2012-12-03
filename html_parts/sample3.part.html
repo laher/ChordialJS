@@ -45,14 +45,15 @@ window.onload= function(){
    change_rootnote();
 };
 var do_rootnote= function(rootnote,lefty,tuning) {
-   var options= { 'size': 3, 'lefty': lefty, 'tuning': tuning };
+   var size= 3;
    var el= document.getElementById('rootnote');
-	var children= el.childNodes;
-	for (var j = children.length-1; j >= 0; j--) {
-		el.removeChild(children[j]);
-	}
+   var children= el.childNodes;
+   var definitions=[];
    for (var family in ChordialJS.data.chords[tuning]) {
-	ChordialJS.renderChord(el,rootnote,options,family);
+      definitions.push({
+            note: rootnote, size : size, lefty: lefty, tuning: tuning, family: family
+            });
+      ChordialJS.renderChords(el,definitions);
    }
 }
 
