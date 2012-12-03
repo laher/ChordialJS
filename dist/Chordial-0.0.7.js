@@ -1,4 +1,4 @@
-/** Chordial - v0.0.7 - 2012-12-03
+/** Chordial - v0.0.7 - 2012-12-04
  * http://laher.github.com/ChordialJS/
  * Copyright (c) 2012 ; Licensed  
  */
@@ -342,10 +342,10 @@ ChordialJS.parse = {
         var markerWidth = 0.7 * fretWidth;
         var lineWidth = Math.ceil(size * 0.31);
         var dotWidth = Math.ceil(0.9 * fretWidth);
-        var perc = 0.8;
-        var fretFontSize = fretWidth / perc;
-        var fingerFontSize = fretWidth * 0.8;
-        var nameFontSize = fretWidth * 2 / perc;
+        var perc = 4; //make it an int - easier on engine
+        var fretFontSize = size * perc + 2;
+        var fingerFontSize = size * perc + 2;
+        var nameFontSize = size * 2 * perc;
         var superScriptFontSize = 0.7 * nameFontSize;
         if (size === 1) {
                 nameFontSize += 2;
@@ -377,7 +377,7 @@ ChordialJS.parse = {
           stringCount : stringCount,
           fretCount : fretCount,
           nameFontSize : nameFontSize,
-          fingerfontSize : fingerFontSize,
+          fingerFontSize : fingerFontSize,
           fretFontSize : fretFontSize,
           superScriptFontSize : superScriptFontSize,
           xstart : fretWidth,
@@ -404,7 +404,7 @@ ChordialJS.render = {
    CLASS_CANVAS_BG : 'ChordialCanvasBg',
    CLASS_CANVAS_FG : 'ChordialCanvasFg',
    CLASS_CANVASDIV : 'ChordialCanvasDiv',
-   drawName : function(ctx,chord) {
+  drawName : function(ctx,chord) {
             var nameAndSuper= ChordialJS.splitNameAndSuper(chord.name);
             var name= nameAndSuper[0];
             var supers= nameAndSuper[1];
@@ -422,17 +422,35 @@ ChordialJS.render = {
                 this.setFont(ctx,chord.parsed.sizes.superScriptFontSize,chord.parsed.sizes.style['font-family']);
                 ctx.fillText(supers, xTextStart + 0.8 * stringSize.width, 0);
             }
-
-            if (chord.parsed.positions.baseFret > 1) {
-                this.setFont(ctx,chord.parsed.sizes.fretFontSize,chord.style['font-family']);
-                var offset = (chord.parsed.sizes.fretFontSize - chord.parsed.sizes.fretWidth) / 2;
-                ctx.fillText(chord.parsed.positions.baseFret + "fr", chord.parsed.sizes.xstart + chord.parsed.sizes.boxWidth + 0.4 * chord.parsed.sizes.fretWidth, chord.parsed.sizes.ystart - offset);
-            }
    },
+
+   drawBaseFret : function(ctx,chord) {
+      var text;
+      if (chord.parsed.positions.baseFret > 1) {
+         text= chord.parsed.positions.baseFret + "";
+      } else {
+         text=" ";
+      }
+      this.setFont(ctx,chord.parsed.sizes.fretFontSize,chord.style['font-family']);
+      var offset = (chord.parsed.sizes.fretFontSize - chord.parsed.sizes.fretWidth) / 2;
+      ctx.fillText(text, chord.parsed.sizes.xstart + chord.parsed.sizes.boxWidth + 0.4 * chord.parsed.sizes.fretWidth, chord.parsed.sizes.ystart - offset);
+
+      if(chord.parsed.positions.baseFret === 1)  {
+            ctx.beginPath();
+            ctx.rect(chord.parsed.sizes.xstart - (chord.parsed.sizes.lineWidth / 2),
+                        chord.parsed.sizes.ystart - chord.parsed.sizes.nutHeight,
+                        chord.parsed.sizes.boxWidth,
+                        chord.parsed.sizes.nutHeight
+                        );
+         ctx.fill();
+      }
+   },
+
    setFont : function(ctx,size,fontFamily) {
         ctx.font = size+"px "+fontFamily;
         ctx.textBaseline = 'top';
    },
+
    drawBarres : function(ctx,chord) {
             var bars = {};
             var bar;
@@ -470,10 +488,9 @@ ChordialJS.render = {
    },
    drawFingers : function(ctx,chord) {
         var xpos = chord.parsed.sizes.xstart + (0.5 * chord.parsed.sizes.lineWidth);
-        var ypos = chord.parsed.sizes.ystart + chord.boxHeight;
-        this.setFont(ctx,chord.parsed.sizes.fingerFontSize,chord.style['font-family']);
-        ctx.textBaseline = 'top';
+        var ypos = chord.parsed.sizes.ystart + chord.parsed.sizes.boxHeight;
         ctx.beginPath();
+        this.setFont(ctx,chord.parsed.sizes.fingerFontSize,chord.style['font-family']);
         for (var f=0; f<chord.parsed.fingers.length; f++) {
                 var finger = chord.parsed.fingers[f];
                 if (finger !== '-') {
@@ -552,15 +569,7 @@ ChordialJS.render = {
                 ctx.lineTo(x22, y22);
        }
        ctx.stroke();
-       if(chord.parsed.positions.baseFret === 1) {
-                ctx.beginPath();
-                ctx.rect(chord.parsed.sizes.xstart - (chord.parsed.sizes.lineWidth / 2),
-                        chord.parsed.sizes.ystart - chord.parsed.sizes.nutHeight,
-                        chord.parsed.sizes.boxWidth,
-                        chord.parsed.sizes.nutHeight
-                        );
-                ctx.fill();
-       }
+
    },
    newBgCanvas : function(el,chord) {
       return this.newChordCanvas(el,chord,this.CLASS_CANVAS_BG);
@@ -654,6 +663,7 @@ ChordialJS.render = {
                     ChordialJS.render.drawPositions(fgCtx, chord);
                     ChordialJS.render.drawBarres(fgCtx, chord);
                     ChordialJS.render.drawFingers(fgCtx, chord);
+                    ChordialJS.render.drawBaseFret(fgCtx, chord);
                 } else {
                    //log?
                    console.log("Error parsing chord");
