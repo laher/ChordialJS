@@ -15,14 +15,14 @@ Features
 -------
 ### ChordialJS.chords:
 
-ChordialJS comes with a small but growing chord library. 
+ChordialJS comes with a small but growing chord library.
 
- - ChordialJS.data.chordTypes: so far 'major', 'minor' and 'seven' chords included 
- - ChordialJS.data.tunings: so far, guitar (standard tuning) and ukulele (gCEA).
+ - Chord types: so far 'major', 'minor', 'seventh', 'sus2', 'sus4' and 'dim' chords included
+ - Tunings: so far, guitar (standard tuning) and ukulele (gCEA)
 
 ### ChordialJS.data.scales, and chord progressions:
  - You can use the ChordialJS.data.scales data to tabulate chord progressions.
- - Initially just the major keys are available for building chord progressions. 
+ - Initially just the major keys are available for building chord progressions.
 
 ### Other options:
  - any chord chart can easily be reversed for 'lefties'
@@ -42,10 +42,11 @@ For full details, see the [samples](http://laher.github.com/ChordialJS/samples.h
 
 ```html
 <script>
+   var definitions=[];
    for (var note in ChordialJS.data.chords.standard.major) {
-	ChordialJS.makeChord(document.getElementById('container'),note,{ 'size': 3, 'lefty': false });
+	definitions.push({ note: note, 'size': 3, 'lefty': false });
    }
-   ChordialJS.renderElements(document.getElementsByTagName('span'));
+   ChordialJS.renderChords(document.getElementById('container1'),definitions);
 </script>
 ```
 
@@ -53,13 +54,14 @@ For full details, see the [samples](http://laher.github.com/ChordialJS/samples.h
 
 ```html
 <script>
+   var defs= [];
    for (var note in ChordialJS.data.scales.major) {
 	var ch= ChordialJS.data.scales.major[note];
-	ChordialJS.makeChord(container,ch[0][0],options);
-	ChordialJS.makeChord(container,ch[3][0],options);
-	ChordialJS.makeChord(container,ch[4][0],options);
+	defs.push({ note: ch[0][0] });
+	defs.push({ note: ch[3][0] });
+	defs.push({ note: ch[4][0] });
    }
-   ChordialJS.renderElements(document.getElementsByTagName('span'));
+   ChordialJS.renderChords(container, defs);
 </script>
 ```
 
@@ -74,5 +76,5 @@ On Debian Linux, you install `grunt` as follows:
 ```
  sudo apt-get install npm
  sudo npm install -g grunt
- grunt 
+ grunt
 ```
