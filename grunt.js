@@ -53,6 +53,13 @@ module.exports = function(grunt) {
                   '<file_template:html_parts/footer.part.html>'],
 	dest: 'sample3.html'
 	},
+      sample4part: {
+	src: ['html_parts/header.part.html',
+                  'html_parts/sampleheader.part.html',
+                  'html_parts/sample4.part.html',
+                  '<file_template:html_parts/footer.part.html>'],
+	dest: 'sample4.html'
+	},
       indexdev: {
 	src: ['html_parts/header.dev.part.html','html_parts/index.part.html','<file_template:html_parts/footer.dev.part.html>'],
 	dest: 'dev/index.html'
@@ -77,6 +84,13 @@ module.exports = function(grunt) {
                   'html_parts/sample3.part.html',
                   '<file_template:html_parts/footer.dev.part.html>'],
 	dest: 'dev/sample3.html'
+	},
+        sample4dev: {
+	src: ['html_parts/header.dev.part.html',
+                  'html_parts/sampleheader.part.html',
+                  'html_parts/sample4.part.html',
+                  '<file_template:html_parts/footer.dev.part.html>'],
+	dest: 'dev/sample4.html'
 	}
     },
     min: {

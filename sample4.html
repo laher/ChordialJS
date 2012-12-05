@@ -72,71 +72,57 @@ fieldset {
 
 
 
-		<h2>3. Chords by Root Note</h2>
-		<p>Just another way to view the chord data.</p>
-                <p>
+      		<h2>4. Custom progressions</h2>
+                <p>This example parses a series of chord names. It could be extended to a 'tab parser' or similar.</p>
+                   <fieldset>
+                      <legend>Options</legend>
 
-               <form>
-                  <fieldset>
-                     <legend>Options</legend>
-                <label for="rootnote_rootnote">
-                Root Note</label>
-		<select id="rootnote_rootnote" onchange="change_rootnote();">
-			<option selected="selected">C</option>
-			<option>C#</option>
-			<option>D</option>
-			<option>D#</option>
-			<option>E</option>
-			<option>F</option>
-			<option>F#</option>
-			<option>G</option>
-			<option>G#</option>
-			<option>A</option>
-			<option>A#</option>
-			<option>B</option>
-		</select>
-                <label for="rootnote_lefty">
-                   Lefty?</label>
-		<input type="checkbox" id="rootnote_lefty" onchange="change_rootnote();">
-                <label for="rootnote_tuning">
-                   Instrument</label>
-		<select id="rootnote_tuning" onchange="change_rootnote();">
-			<option value="standard">Guitar</option>
-			<option value="ukulele">Ukelele</option>
-		</select>
-                  </fieldset>
-               </form>
-		<div id="rootnote"></div>
-                <div style='clear:both'></div>
-
-         </div>
+                   <p>
+                      <label for="parser_lefty">
+                         Lefty?</label>
+                      <input type="checkbox" id="parser_lefty" onchange="change_parser();">
+                      <label for="parser_instrument">
+                        Instrument
+                      </label>
+                      <select id="parser_instrument" onchange="change_parser();">
+                              <option value="standard">Guitar</option>
+                              <option value="ukulele">Ukelele</option>
+                      </select>
+                   </p>
+                   <p>
+                     <textarea id="parser_input" onchange="change_parser();">A D E7</textarea>
+                     <button onclick="change_parser(); return false">OK</button>
+                   </p>
+                </fieldset>
+               <div style='clear:both'></div>
+               <div id='parser_output'></div>
+               <div style='clear:both'></div>
+     </div>
       </div>
    </div>
 
+
+
+
 <script type="text/javascript">//<![CDATA[
 window.onload= function(){
-   change_rootnote();
-};
-var do_rootnote= function(rootnote,lefty,tuning) {
-   var size= 3;
-   var el= document.getElementById('rootnote');
-   var children= el.childNodes;
-   var definitions=[];
-   for (var family in ChordialJS.data.chords[tuning]) {
-      definitions.push({
-            note: rootnote, size : size, lefty: lefty, tuning: tuning, family: family
-            });
-      ChordialJS.renderChords(el,definitions);
-   }
-}
-
-var change_rootnote= function() {
-	var rootnote= document.getElementById('rootnote_rootnote').value;
-	var lefty= document.getElementById('rootnote_lefty').checked;
-	var tuning= document.getElementById('rootnote_tuning').value;
-	do_rootnote(rootnote,lefty,tuning);
+   change_parser();
 };
 
+var do_parser= function(input,lefty,tuning) {
+   var size=3;
+   var el= document.getElementById('parser_output');
+   var progression= ChordialJS.parseProgression(input,
+      { size: size, lefty: lefty, tuning : tuning });
+   ChordialJS.renderChords(el,progression);
+};
+
+var change_parser= function(){
+	var text= document.getElementById('parser_input').value;
+	var lefty= document.getElementById('parser_lefty').checked;
+	var tuning= document.getElementById('parser_instrument').value;
+	do_parser(text,lefty,tuning);
+};
 //]]>
 </script>
 

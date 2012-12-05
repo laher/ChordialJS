@@ -64,6 +64,7 @@ fieldset {
                   <li><a href="samples.html">1. Common Progressions</a></li>
                   <li><a href="sample2.html">2. Chord Families</a></li>
                   <li><a href="sample3.html">3. Chords by Root Note</a></li>
+                  <li><a href="sample4.html">4. Custom Progressions</a></li>
                </ul>
             </div><!--/.well -->
          </div><!--/span-->
@@ -81,11 +82,18 @@ fieldset {
                 Progression</label>
 		<select id="prog_progression" onchange="change_prog();">
 			<option>I-IV-V7</option>
+			<option>Full Scale</option>
+			<option>Circle</option>
+			<option>50s</option>
 			<option>I-IV-V</option>
-			<option>I-vi-IV-V</option>
-			<option>I-vi-ii-V</option>
+			<option>I-IV-V (Barre)</option>
 		</select>
-
+               <label for="prog_scale">
+                  Scale</label>
+               <select id="prog_scale" onchange="change_prog();">
+                  <option>major</option>
+                  <option>minor</option>
+               </select>
                 <label for="prog_key">
                 Key</label>
 		<select id="prog_key" onchange="change_prog();">
@@ -128,46 +136,48 @@ fieldset {
 window.onload= function(){
    change_prog();
 };
-var do_progs= function(key,lefty,tuning,progression) {
+var do_progs= function(key,scale,lefty,tuning,progression) {
    var size=3;
-   var scale= ChordialJS.makeScale('major',key);
    var el= document.getElementById('progression1');
-  if(progression=='I-IV-V') {
-     ChordialJS.renderChords(el, [
-            { note: scale[0], size: size, lefty: lefty, tuning: tuning },
-            { note: scale[3], size: size, lefty: lefty, tuning: tuning },
-            { note: scale[4], size: size, lefty: lefty, tuning: tuning },
-            ]);
+   /*
+   if(progression=='I-IV-V') {
+     ChordialJS.renderChords(el,
+         ChordialJS.makePartialProgression(scale, key,
+         [ { degree : 1 }, { degree : 4 }, { degree : 5  }]),
+         { size: size, lefty: lefty, tuning : tuning });
   } else if(progression=='I-IV-V7') {
-     ChordialJS.renderChords(el, [
-            { note: scale[0], size: size, lefty: lefty, tuning: tuning },
-            { note: scale[3], size: size, lefty: lefty, tuning: tuning },
-            { note: scale[4], size: size, lefty: lefty, tuning: tuning, family: 'seven' },
-            ]);
-   } else if(progression=='I-vi-IV-V') {
-        ChordialJS.renderChords(el, [
-                  { note: scale[0], size: size, lefty: lefty, tuning: tuning },
-                  { note: scale[5], size: size, lefty: lefty, tuning: tuning, family: 'minor' },
-                  { note: scale[3], size: size, lefty: lefty, tuning: tuning },
-                  { note: scale[4], size: size, lefty: lefty, tuning: tuning },
-                  ]);
-   } else if(progression=='I-vi-ii-V') {
-        ChordialJS.renderChords(el, [
-                  { note: scale[0], size: size, lefty: lefty, tuning: tuning },
-                  { note: scale[5], size: size, lefty: lefty, tuning: tuning, family: 'minor' },
-                  { note: scale[1], size: size, lefty: lefty, tuning: tuning, family: 'minor' },
-                  { note: scale[4], size: size, lefty: lefty, tuning: tuning },
-                  ]);
+      ChordialJS.renderChords(el,
+         ChordialJS.makePartialProgression(scale, key,
+         [{ degree : 1 }, { degree : 4 }, { degree : 5, family : 'seven'}],
+         { size: size, lefty: lefty, tuning : tuning }));
+  } else if(progression=='50s') {
+      ChordialJS.renderChords(el,
+         ChordialJS.makePartialProgression(scale, key,
+            [ { degree : 1 }, {degree : 6}, { degree : 4 }, { degree : 5  }],
+         { size: size, lefty: lefty, tuning : tuning }));
+   } else if(progression=='Circle') {
+      ChordialJS.renderChords(el,
+         ChordialJS.makePartialProgression(scale, key,
+            [
+               { degree : 1 }, {degree : 4 }, { degree : 7 }, { degree : 3  },
+               { degree : 6 }, {degree : 2 }, { degree : 5 }
+            ],
+         { size: size, lefty: lefty, tuning : tuning }));
+   } else if(progression=='Full scale') {
    }
+   */
+   ChordialJS.renderChords(el,
+      ChordialJS.makeNamedProgression(scale, key, progression,
+      { size: size, lefty: lefty, tuning : tuning }));
 };
 
 var change_prog= function(){
 	var key= document.getElementById('prog_key').value;
-	//var scale= document.getElementById('prog_scale').value;
+	var scale= document.getElementById('prog_scale').value;
 	var lefty= document.getElementById('prog_lefty').checked;
 	var tuning= document.getElementById('prog_instrument').value;
 	var progression= document.getElementById('prog_progression').value;
-	do_progs(key,lefty,tuning,progression);
+	do_progs(key,scale,lefty,tuning,progression);
 };
 //]]>
 </script>
@@ -176,11 +186,11 @@ var change_prog= function(){
    <hr>
    <div class="container">
       <footer>
-        <p>&copy; Am Laher 2012</p>
+      <p>&copy; <a href='http://laher.github.com/'>Am Laher 2012</a></p>
       </footer>
    </div> <!-- /container -->
 
 <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-<script src="dist/Chordial-0.0.7.js"></script>
+<script src="dist/Chordial-0.0.8.js"></script>
 </body>
 </html>

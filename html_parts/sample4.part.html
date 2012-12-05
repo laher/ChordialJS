@@ -1,0 +1,54 @@
+
+      		<h2>4. Custom progressions</h2>
+                <p>This example parses a series of chord names. It could be extended to a 'tab parser' or similar.</p>
+                   <fieldset>
+                      <legend>Options</legend>
+
+                   <p>
+                      <label for="parser_lefty">
+                         Lefty?</label>
+                      <input type="checkbox" id="parser_lefty" onchange="change_parser();">
+                      <label for="parser_instrument">
+                        Instrument
+                      </label>
+                      <select id="parser_instrument" onchange="change_parser();">
+                              <option value="standard">Guitar</option>
+                              <option value="ukulele">Ukelele</option>
+                      </select>
+                   </p>
+                   <p>
+                     <textarea id="parser_input" onchange="change_parser();">A D E7</textarea>
+                     <button onclick="change_parser(); return false">OK</button>
+                   </p>
+                </fieldset>
+               <div style='clear:both'></div>
+               <div id='parser_output'></div>
+               <div style='clear:both'></div>
+     </div>
+      </div>
+   </div>
+
+
+
+
+<script type="text/javascript">//<![CDATA[
+window.onload= function(){
+   change_parser();
+};
+
+var do_parser= function(input,lefty,tuning) {
+   var size=3;
+   var el= document.getElementById('parser_output');
+   var progression= ChordialJS.parseProgression(input,
+      { size: size, lefty: lefty, tuning : tuning });
+   ChordialJS.renderChords(el,progression);
+};
+
+var change_parser= function(){
+	var text= document.getElementById('parser_input').value;
+	var lefty= document.getElementById('parser_lefty').checked;
+	var tuning= document.getElementById('parser_instrument').value;
+	do_parser(text,lefty,tuning);
+};
+//]]>
+</script>

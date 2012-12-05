@@ -44,7 +44,7 @@
  */
 var ChordialJS = {
 
-//turn a flat into a sharp for look-ups
+   //turn a flat into a sharp for look-ups
    normaliseNote : function(note) {
         if(note.length > 1 && note.charAt(1)==='b') {
                 if(note.charAt(0)==='A') {
@@ -55,6 +55,14 @@ var ChordialJS = {
                         return 'E';
                 } else {
                         return String.fromCharCode(note.charCodeAt(0) - 1) + "#";
+                }
+        } else if(note.length > 1 && note.charAt(1)==='#') {
+                if(note.charAt(0)==='B') {
+                   return 'C';
+                } else if(note.charAt(0)==='E') {
+                   return 'F';
+                } else {
+                   return note;
                 }
         } else {
                 return note;
@@ -98,7 +106,7 @@ var ChordialJS = {
       if(definition.tuning === undefined) { definition.tuning = 'standard'; }
       if(definition.name === undefined) { definition.name = definition.note +
          (ChordialJS.data.chordTypes.abbreviations[definition.family] !== undefined ?
-         ChordialJS.data.chordTypes.abbreviations[definition.family] : definition.family);
+         ChordialJS.data.chordTypes.abbreviations[definition.family][0] : definition.family);
       }
       return definition;
    },
@@ -170,10 +178,13 @@ var ChordialJS = {
    },
 
    updateChordContainer : function(chord,holder) {
-        holder.setAttribute('data-name',chord.name);
+      holder.setAttribute('data-name',chord.name);
    //look up positions & fingers
-        var positions= ChordialJS.data.chords[chord.tuning][chord.family][this.normaliseNote(chord.note)][0][0];
-        var fingers= ChordialJS.data.chords[chord.tuning][chord.family][this.normaliseNote(chord.note)][0][1];
+      var tuningArr=  ChordialJS.data.chords[chord.tuning];
+      var familyArr= tuningArr[chord.family];
+      var noteArr= familyArr[this.normaliseNote(chord.note)];
+      var positions= noteArr[0][0];
+      var fingers= noteArr[0][1];
         if(chord.lefty) {
                 positions= this.reverseString(positions);
                 fingers= this.reverseString(fingers);
@@ -208,14 +219,90 @@ var ChordialJS = {
       }
       return [name, supers];
    },
-   makeScale : function(family,root) {
+
+   normaliseFamily : function(family_given) {
+      for (var family_name in ChordialJS.data.chordTypes.abbreviations) {
+         if (family_given === family_name) {
+            return family_name;
+         }
+         var abbr= ChordialJS.data.chordTypes.abbreviations[family_name];
+         for(var i=0; i<abbr.length;i++) {
+            if(family_given === abbr[i]) {
+               return family_name;
+            }
+         }
+      }
+      //unknown. Return input
+      return family_given;
+   },
+
+
+   parseChordName : function(input, defaults) {
+      var pattern= /^([A-Ga-g][b#]?)_?([7|maj7|maj|min7|min|sus2|m|sus4|o|dim])?$/;
+      if(input.match(pattern)) {
+         //TODO: split into note + family.
+         var arr= input.match(pattern);
+         var family = this.normaliseFamily(arr[2]);
+         return this.mergeDefaults({ note: arr[1].toUpperCase(), family : family }, defaults);
+      }
+   },
+   parseProgression : function(input,defaults) {
+      var progression= [];
+      var lines = input.split(/\r?\n/);
+      for(var i=0;i<lines.length;i++) {
+         var notes= lines[i].trim().split(/\s+/);
+         for(var ni=0;ni<notes.length;ni++) {
+            //is it a note?
+            var definition= this.parseChordName(notes[ni],defaults);
+            if(definition) {
+               progression.push(
+                     this.cleanInput(definition));
+            }
+         }
+      }
+      return progression;
+   },
+
+   makeNamedProgression : function(scaleType, root, progression, defaults) {
+      return this.makePartialProgression(scaleType,root,
+            ChordialJS.data.progressions.heptatonic[progression], defaults);
+   },
+   makePartialProgression : function(scaleType, root, definitions, defaults) {
+      var fullProgression= this.makeProgression(scaleType, root);
+      var partialProgression=[];
+      for(var i=0; i<definitions.length; i++) {
+         var definition= this.mergeDefaults(definitions[i], defaults);
+         var degree= definition.degree;
+         var note= fullProgression[degree-1].note;
+         var chordFamily= definition.family || fullProgression[degree-1].family;
+         definition= this.mergeDefaults(definition, {
+            note: note,
+            family: chordFamily
+         });
+         partialProgression.push(definition);
+      }
+      return partialProgression;
+   },
+
+   makeProgression : function(scaleType, root) {
+      var scale= this.makeScale(scaleType,root);
+      var progression=[];
+      var chordtypes= ChordialJS.data.scales.chordtypes[scaleType];
+      for(var i=0;i<scale.length;i++) {
+
+         progression.push({note: scale[i], family: chordtypes[i]});
+      }
+      return progression;
+   },
+
+   makeScale : function(scaleType,root) {
         var allNotes= this.getAllNotesFromRoot(root);
-        var intervals= ChordialJS.data.scales.intervals[family];
+        var degrees= ChordialJS.data.scales.degrees[scaleType];
         var scale=[];
-        scale.push(root);
+        //scale.push(root);
         var noteIndex=0;
-        for(var i=0;i<intervals.length;i++) {
-                noteIndex+=intervals[i];
+        for(var i=0;i<degrees.length;i++) {
+                noteIndex=degrees[i]-1;
                 scale.push(allNotes[noteIndex]);
         }
         return scale;
@@ -238,10 +325,24 @@ var ChordialJS = {
         return allNotes.concat(endNotes);
    },
 
-   renderChords : function(parentElement, definitions) {
+   mergeDefaults : function(object1,defaults) {
+      var merged= {};
+      for (var prop in object1) {
+         merged[prop] = object1[prop];
+      }
+      for (var dprop in defaults) {
+         if (dprop in merged) { continue; }
+         merged[dprop] = defaults[dprop];
+      }
+      return merged;
+   },
+
+   renderChords : function(parentElement, definitions, defaults) {
       var existingCharts= this.getExistingCharts(parentElement);
+      defaults = defaults || {};
       for(var i=0; i<definitions.length; i++) {
          var container;
+         var definition= this.mergeDefaults(definitions[i], defaults[i]);
          if(existingCharts.length>i) {
             container= this.makeChord(parentElement, definitions[i], existingCharts[i]);
          } else {
