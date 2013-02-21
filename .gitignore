@@ -1,3 +1,4 @@
 *.dev.html
 .*.swp
 dev/
+node_modules/
