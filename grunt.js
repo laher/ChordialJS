@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     // include: '<script type="text/javascript" src="src/<%= pkg.name %>-<%= pkg.version %>.min.js"></script>';
     },
     lint: {
-      files: ['grunt.js', 'src/**/*.js', 'test/**/*.js']
+      files: ['grunt.js', 'src/**/*.js']
     },
     qunit: {
       files: ['test/**/*.html']

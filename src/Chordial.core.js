@@ -102,6 +102,7 @@ var ChordialJS = {
    cleanInput : function(definition) { //see optional elements
       //clean input
       if(definition.family === undefined) { definition.family='major'; }
+      if(definition.fingering === undefined) { definition.fingering='open'; }
       if(definition.size === undefined) { definition.size=3; }
       if(definition.tuning === undefined) { definition.tuning = 'standard'; }
       if(definition.name === undefined) { definition.name = definition.note +
@@ -177,21 +178,69 @@ var ChordialJS = {
       }
    },
 
+   calcMovableChord : function(chord) {
+      var ret= {};
+      var notes0to11,base;
+      if(chord.tuning==="standard") {
+         if(chord.fingering === "barre:E-shape") {
+            notes0to11= ChordialJS.getAllNotesFromRoot("E");
+            base= notes0to11.indexOf(chord.note);
+            ret.positions= [base,base+2,base+2,base+1,base,base].join("");
+            ret.fingers= "134211";
+         }else if(chord.fingering === "barre:A-shape") {
+            notes0to11= ChordialJS.getAllNotesFromRoot("A");
+            base= notes0to11.indexOf(chord.note);
+            ret.positions= ['X',base,base+2,base+2,base+2,base].join("");
+            ret.fingers= "-13331";
+         }
+      }
+      return ret;
+   },
+
+
+   getPositionsAndFingers : function(chord) {
+      //look in preferred chord data
+      var tuningArr=  ChordialJS.data.chords[chord.tuning];
+      var ret={};
+      //positions,fingers;
+      if(tuningArr) {
+         var familyArr= tuningArr[chord.family];
+         if(familyArr) {
+            var noteObj= familyArr[this.normaliseNote(chord.note)];
+            if(noteObj) {
+               var fingeringArr= noteObj[chord.fingering];
+               if(fingeringArr) {
+                  ret.positions= fingeringArr[0];
+                  ret.fingers= fingeringArr[1];
+               }
+            }
+         }
+      }
+      if(ret.positions === undefined) {
+         if(chord.fingering.indexOf("barre:") === 0) {
+            ret= this.calcMovableChord(chord);
+         } else {
+            //calculate chord!
+            ret.positions= this.chordcalc.buildChord(
+               this.chordcalc.tunings.standard,chord.note,chord.family)
+                  .join("");
+         }
+      }
+      if(chord.lefty) {
+         ret.positions= this.reverseString(ret.positions);
+         ret.fingers= this.reverseString(ret.fingers);
+      }
+      return ret;
+      //{ positions: positions,fingers: fingers};
+   },
+
    updateChordContainer : function(chord,holder) {
       holder.setAttribute('data-name',chord.name);
    //look up positions & fingers
-      var tuningArr=  ChordialJS.data.chords[chord.tuning];
-      var familyArr= tuningArr[chord.family];
-      var noteArr= familyArr[this.normaliseNote(chord.note)];
-      var positions= noteArr[0][0];
-      var fingers= noteArr[0][1];
-        if(chord.lefty) {
-                positions= this.reverseString(positions);
-                fingers= this.reverseString(fingers);
-        }
+      var ret= this.getPositionsAndFingers(chord);
    //set attributes
-        holder.setAttribute('data-positions', positions);
-        holder.setAttribute('data-fingers', fingers);
+        holder.setAttribute('data-positions', ret.positions);
+        holder.setAttribute('data-fingers', ret.fingers);
         holder.setAttribute('data-size', chord.size);
         for(var i=0; i<holder.childNodes.length;i++) {
             var ch= holder.childNodes[i];
