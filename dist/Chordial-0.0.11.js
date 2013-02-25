@@ -117,6 +117,7 @@ var ChordialJS = {
          ChordialJS.data.chordTypes.abbreviations[definition.family][0] : definition.family);
       }
       if(definition.lefty === undefined) { definition.lefty = false; }
+      return definition;
    },
 
    makeChordContainer : function(chord) {
@@ -668,7 +669,6 @@ ChordialJS.render = {
 	for (var i = 0; i < notes.length; i++) {
                 var note = notes[i];
                 if (note !== undefined) {
-			console.log(note);
                     var charSize = ctx.measureText(note.toString());
                     ctx.fillText(note.toString(), xpos - (0.5 * charSize.width), ypos);
                 }
