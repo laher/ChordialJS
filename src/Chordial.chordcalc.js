@@ -154,13 +154,12 @@ ChordialJS.chordcalc = {
 //opposite direction - calc notes from a chord.
    calculateNotesOfChord : function(positions, tuning, lefty) {
       var notes=[];
-      //var rootNotes= ChordialJS.data.tunings[tuning];
-      var rootNotes= this.tunings[tuning];
-      console.log(rootNotes);
+      //slice(0) returns a copy of the array, so the source array isn't affected by any reversing.
+      var rootNotes= ChordialJS.data.tunings[tuning].slice(0);
       if (lefty === true) {
         rootNotes= rootNotes.reverse();
       }
-      console.log(rootNotes);
+      //console.log(rootNotes);
       for(var i=0; i < positions.length; i++) {
 	var splittedRootNote= this.splitScientificNotation(rootNotes[i]);
 	notes[i]= this.calcFrettedNote(splittedRootNote[0], positions[i]);

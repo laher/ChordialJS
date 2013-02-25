@@ -279,9 +279,9 @@ ChordialJS.render = {
         var ypos = 0;
         ctx.beginPath();
         this.setFont(ctx,chord.parsed.sizes.fingerFontSize * 2/3,chord.style['font-family']);
-	console.log(chord);
+	//console.log(chord);
 	var notes= ChordialJS.chordcalc.calculateNotesOfChord(chord.parsed.positions.chordPositions, chord.tuning, chord.lefty);
-	console.log(notes);
+	//console.log(notes);
 	for (var i = 0; i < notes.length; i++) {
                 var note = notes[i];
                 if (note !== undefined) {

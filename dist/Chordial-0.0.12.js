@@ -1,4 +1,4 @@
-/** Chordial - v0.0.11 - 2013-02-25
+/** Chordial - v0.0.12 - 2013-02-25
  * http://laher.github.com/ChordialJS/
  * Copyright (c) 2013 ; Licensed  
  */
