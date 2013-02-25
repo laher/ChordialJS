@@ -23,6 +23,7 @@ module.exports = function(grunt) {
         src: ['<banner:meta.banner>',
 					'license.txt',
 					'<file_strip_banner:src/<%= pkg.name %>.core.js>',
+					'<file_strip_banner:src/<%= pkg.name %>.chordcalc.js>',
 					'<file_strip_banner:src/<%= pkg.name %>.render.js>',
 					'<file_strip_banner:src/<%= pkg.name %>.data.js>',
 					'src/<%= pkg.name %>.data.js'],
