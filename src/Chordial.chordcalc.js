@@ -1,15 +1,13 @@
-
 var ChordialJS = ChordialJS || {};
 var console = console || {};
 
 ChordialJS.chordcalc = {
    //A note can be represented as an integer from C0=0,C1=12,...
-
-
+	//UNTESTED
    calcFrettedNote: function(openNote, fret, openOctave) {
       var notes= ChordialJS.getAllNotesFromRoot(openNote);
       var semitone= fret % 12;
-      var frettedNote= notes[openNote];
+      var frettedNote= notes[semitone];
       return frettedNote;
    },
 
@@ -24,13 +22,34 @@ ChordialJS.chordcalc = {
       return index;
    },
 
-   parseScientificNotation : function(sciNote) {
+	//UNTESTED
+   getAlphaNote : function(numericNote) {
+      var notes= ChordialJS.data.notes;
+      var i= numericNote % 12;
+      return notes[i];
+   },
+
+	// C0 -> [C,0]
+   splitScientificNotation : function (sciNote) {
       var patt= /^([A-G][#b]?)([0-9])$/;
       var matches;
       if(matches= sciNote.match(patt)) {
-         //console.log(matches);
-         var noteComponent= ChordialJS.normaliseNote(matches[1]);
-         var octave= parseInt(matches[2],10);
+	var ret= [matches[1], parseInt(matches[2], 10)];
+	//console.log("Note: "+sciNote+" . split: " + ret);
+	return ret;
+      } else {
+	//error
+	console.log("NO match for input " + sciNote);
+      }
+   },
+
+	// C0 -> 0. C1 -> 12.
+   parseScientificNotation : function(sciNote) {
+      var parts;
+      if(parts= this.splitScientificNotation(sciNote)) {
+         //console.log(parts);
+         var noteComponent= ChordialJS.normaliseNote(parts[0]);
+         var octave= parseInt(parts[1],10);
          var octaveInt= parseInt(octave,10);
          var index= this.getNumericNote(noteComponent);
         // console.log("octave: "+octaveInt+", note: "+index);
@@ -52,7 +71,7 @@ ChordialJS.chordcalc = {
 
    tunings : {
       standard : ["E2","A2","D3","G3","B3","E4"],
-      ukelele : ["G4","C4","E4","A4"]
+      ukulele : ["G4","C4","E4","A4"]
    },
 
    getSemitones : function(family) {
@@ -130,5 +149,23 @@ ChordialJS.chordcalc = {
          break;
       }
       return positions;
+   },
+
+//opposite direction - calc notes from a chord.
+   calculateNotesOfChord : function(positions, tuning, lefty) {
+      var notes=[];
+      //var rootNotes= ChordialJS.data.tunings[tuning];
+      var rootNotes= this.tunings[tuning];
+      console.log(rootNotes);
+      if (lefty === true) {
+        rootNotes= rootNotes.reverse();
+      }
+      console.log(rootNotes);
+      for(var i=0; i < positions.length; i++) {
+	var splittedRootNote= this.splitScientificNotation(rootNotes[i]);
+	notes[i]= this.calcFrettedNote(splittedRootNote[0], positions[i]);
+      }
+      return notes;
    }
+
 };

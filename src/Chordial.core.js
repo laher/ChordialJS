@@ -109,6 +109,7 @@ var ChordialJS = {
          (ChordialJS.data.chordTypes.abbreviations[definition.family] !== undefined ?
          ChordialJS.data.chordTypes.abbreviations[definition.family][0] : definition.family);
       }
+      if(definition.lefty === undefined) { definition.lefty = false; }
       return definition;
    },
 
@@ -242,6 +243,8 @@ var ChordialJS = {
         holder.setAttribute('data-positions', ret.positions);
         holder.setAttribute('data-fingers', ret.fingers);
         holder.setAttribute('data-size', chord.size);
+        holder.setAttribute('data-tuning', chord.tuning);
+        holder.setAttribute('data-lefty', chord.lefty);
         for(var i=0; i<holder.childNodes.length;i++) {
             var ch= holder.childNodes[i];
             if(ch.nodeType=== 1) {
