@@ -3,9 +3,12 @@
                 <p>This example parses a series of chord names. It could be extended to a 'tab parser' or similar.</p>
                    <fieldset>
                       <legend>Options</legend>
-
-                   <p>
-                      <label for="parser_lefty">
+                     <textarea id="parser_input" onchange="change_parser();">A D E7</textarea>
+                     <button onclick="change_parser(); return false">OK</button>
+                </fieldset>
+		<fieldset style='vertical-align: top'>
+			<legend>Instrument Options</legend>
+               <label for="parser_lefty">
                          Lefty?</label>
                       <input type="checkbox" id="parser_lefty" onchange="sess_save('lefty','parser_lefty');change_parser();">
                       <label for="parser_instrument">
@@ -15,11 +18,7 @@
                               <option value="standard">Guitar</option>
                               <option value="ukulele">Ukulele</option>
                       </select>
-                   </p>
-                   <p>
-                     <textarea id="parser_input" onchange="change_parser();">A D E7</textarea>
-                     <button onclick="change_parser(); return false">OK</button>
-                   </p>
+
                 </fieldset>
                <div style='clear:both'></div>
                <div id='parser_output'></div>

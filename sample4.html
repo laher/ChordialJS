@@ -25,6 +25,8 @@ legend {
 }
 fieldset {
    border: 1px solid #E5E5E5;
+   display: inline;
+   padding: 5px;
 }
 </style>
 
@@ -84,15 +86,19 @@ fieldset {
 //some shared code for the samples
 function sess_save(c_name, id) {
 	var el = document.getElementById(id);
-	var val = el.value;
-	//console.log('saving '+c_name+'='+val);
+	if (el.type && el.type == 'checkbox') {
+		var val = el.checked;
+	} else {
+		var val = el.value;
+	}
+	console.log('saving '+c_name+'='+val);
 	setCookie(c_name, val, 30);
 }
 function sess_load(c_name, id) {
 	var el = document.getElementById(id);
 	var val = getCookie(c_name);
 	if (val != null) {
-		//console.log('loading '+id+'='+val);
+		console.log('loading '+id+'='+val);
 		if(el.options != null) {
 			for (var i = 0; i < el.options.length; i++) {
 			    if (el.options[i].value == val) {
@@ -101,8 +107,10 @@ function sess_load(c_name, id) {
 			    }
 			}
 		} else if (el.type && el.type === 'checkbox') {
-			if (val == 'on') {
+			if (val == 'true' || val == 'on') {
 				el.checked = true;
+			} else {
+				el.checked = false;
 			}
 		} else {
 			//otherwise assume textbox ..
@@ -150,9 +158,12 @@ function getCookie(c_name)
                 <p>This example parses a series of chord names. It could be extended to a 'tab parser' or similar.</p>
                    <fieldset>
                       <legend>Options</legend>
-
-                   <p>
-                      <label for="parser_lefty">
+                     <textarea id="parser_input" onchange="change_parser();">A D E7</textarea>
+                     <button onclick="change_parser(); return false">OK</button>
+                </fieldset>
+		<fieldset style='vertical-align: top'>
+			<legend>Instrument Options</legend>
+               <label for="parser_lefty">
                          Lefty?</label>
                       <input type="checkbox" id="parser_lefty" onchange="sess_save('lefty','parser_lefty');change_parser();">
                       <label for="parser_instrument">
@@ -162,11 +173,7 @@ function getCookie(c_name)
                               <option value="standard">Guitar</option>
                               <option value="ukulele">Ukulele</option>
                       </select>
-                   </p>
-                   <p>
-                     <textarea id="parser_input" onchange="change_parser();">A D E7</textarea>
-                     <button onclick="change_parser(); return false">OK</button>
-                   </p>
+
                 </fieldset>
                <div style='clear:both'></div>
                <div id='parser_output'></div>
