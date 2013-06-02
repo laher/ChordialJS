@@ -118,7 +118,7 @@ var ChordialJS = {
    //make a container div
         var holder= document.createElement('div');
         holder.className = 'ChordialChordContainer';
-        holder.style['float']= 'left';
+        holder.style['cssFloat']= 'left';
         var nameDiv= this.makeNameDiv(chord,holder);
         holder.appendChild(nameDiv);
         var cdiv= this.makeCanvasDiv();
