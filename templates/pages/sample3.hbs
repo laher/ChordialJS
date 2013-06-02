@@ -24,10 +24,10 @@
 		</select>
                 <label for="rootnote_lefty">
                    Lefty?</label>
-		<input type="checkbox" id="rootnote_lefty" onchange="change_rootnote();">
+		<input type="checkbox" id="rootnote_lefty" onchange="sess_save('lefty','rootnote_lefty');change_rootnote();">
                 <label for="rootnote_tuning">
                    Instrument</label>
-		<select id="rootnote_tuning" onchange="change_rootnote();">
+		<select id="rootnote_tuning" onchange="sess_save('instrument','rootnote_tuning');change_rootnote();">
 			<option value="standard">Guitar</option>
 			<option value="ukulele">Ukulele</option>
 		</select>
@@ -42,6 +42,8 @@
 
 <script type="text/javascript">//<![CDATA[
 window.onload= function(){
+   sess_load('lefty', 'rootnote_lefty');
+   sess_load('instrument', 'rootnote_tuning');
    change_rootnote();
 };
 var do_rootnote= function(rootnote,lefty,tuning) {

@@ -2,7 +2,7 @@
    <head>
       <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
 <title>ChordialJS</title>
-<link href="http://netdna.bootstrapcdn.com/bootswatch/2.3.0/spruce/bootstrap.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/bootswatch/2.3.2/cerulean/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
 body {
 padding-top: 60px;
@@ -69,7 +69,7 @@ fieldset {
       <div class="row-fluid">
          <div class="span3">
             <div class="well sidebar-nav">
-               <ul class="nav nav-list">
+               <ul class="nav nav-pills nav-stacked">
                   <li class="nav-header">Samples</li>
                   <li><a href="samples.html">1. Common Progressions</a></li>
                   <li><a href="sample2.html">2. Chord Families</a></li>
@@ -80,6 +80,71 @@ fieldset {
          </div><!--/span-->
          <div class="span9">
 
+<script type='text/javascript'>
+//some shared code for the samples
+function sess_save(c_name, id) {
+	var el = document.getElementById(id);
+	var val = el.value;
+	//console.log('saving '+c_name+'='+val);
+	setCookie(c_name, val, 30);
+}
+function sess_load(c_name, id) {
+	var el = document.getElementById(id);
+	var val = getCookie(c_name);
+	if (val != null) {
+		//console.log('loading '+id+'='+val);
+		if(el.options != null) {
+			for (var i = 0; i < el.options.length; i++) {
+			    if (el.options[i].value == val) {
+				el.options.selectedIndex = i;
+				break;
+			    }
+			}
+		} else if (el.type && el.type === 'checkbox') {
+			if (val == 'on') {
+				el.checked = true;
+			}
+		} else {
+			//otherwise assume textbox ..
+			el.value = val;
+		}
+	}
+}
+
+//get/set cookies functions taken from w3cschools
+function setCookie(c_name,value,exdays)
+{
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+	document.cookie=c_name + "=" + c_value;
+}
+function getCookie(c_name)
+{
+	var c_value = document.cookie;
+	var c_start = c_value.indexOf(" " + c_name + "=");
+	if (c_start == -1)
+	{
+	  c_start = c_value.indexOf(c_name + "=");
+	}
+	if (c_start == -1)
+	{
+	  c_value = null;
+	}
+	else
+	  {
+	  c_start = c_value.indexOf("=", c_start) + 1;
+	  var c_end = c_value.indexOf(";", c_start);
+	  if (c_end == -1)
+	  {
+	c_end = c_value.length;
+	}
+	c_value = unescape(c_value.substring(c_start,c_end));
+	}
+	return c_value;
+}
+
+</script>
 
 		<h2>2. Chord families</h2>
 		<p>Here I've just iterated through each of the families I have. Note that I'll keep coming back and adding more.</p>
@@ -101,11 +166,11 @@ fieldset {
 		</select>
                 <label for="family_lefty">
                    Lefty?</label>
-		<input type="checkbox" id="family_lefty" onchange="change_family();">
+		<input type="checkbox" id="family_lefty" onchange="sess_save('lefty','family_lefty');change_family();">
 
                 <label for="family_tuning">
                    Instrument</label>
-		<select id="family_tuning" onchange="change_family();">
+		<select id="family_tuning" onchange="sess_save('instrument','family_tuning');change_family();">
 			<option value="standard">Guitar</option>
 			<option value="ukulele">Ukulele</option>
 		</select>
@@ -122,6 +187,8 @@ fieldset {
 
 <script type="text/javascript">//<![CDATA[
 window.onload= function(){
+   sess_load('lefty', 'family_lefty');
+   sess_load('instrument', 'family_tuning');
    change_family();
 };
 
@@ -162,8 +229,9 @@ var change_family= function() {
       </footer>
    </div> <!-- /container -->
 
+<!-- twitter bootstrap requires jquery. Otherwise jquery is unused in this site -->
 <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
-<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script src="dist/Chordial-0.0.13.js"></script>
 </body>
 </html>

@@ -7,11 +7,11 @@
                    <p>
                       <label for="parser_lefty">
                          Lefty?</label>
-                      <input type="checkbox" id="parser_lefty" onchange="change_parser();">
+                      <input type="checkbox" id="parser_lefty" onchange="sess_save('lefty','parser_lefty');change_parser();">
                       <label for="parser_instrument">
                         Instrument
                       </label>
-                      <select id="parser_instrument" onchange="change_parser();">
+                      <select id="parser_instrument" onchange="sess_save('instrument','parser_instrument');change_parser();">
                               <option value="standard">Guitar</option>
                               <option value="ukulele">Ukulele</option>
                       </select>
@@ -33,6 +33,8 @@
 
 <script type="text/javascript">//<![CDATA[
 window.onload= function(){
+   sess_load('lefty', 'parser_lefty');
+   sess_load('instrument', 'parser_instrument');
    change_parser();
 };
 

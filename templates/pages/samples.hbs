@@ -41,11 +41,11 @@
 		</select>
                 <label for="prog_lefty">
                    Lefty?</label>
-		<input type="checkbox" id="prog_lefty" onchange="change_prog();">
+		<input type="checkbox" id="prog_lefty" onchange="sess_save('lefty','prog_lefty');change_prog();">
                <label for="prog_instrument">
                   Instrument
                </label>
-		<select id="prog_instrument" onchange="change_prog();">
+		<select id="prog_instrument" onchange="sess_save('instrument','prog_instrument');change_prog();">
 			<option value="standard">Guitar</option>
 			<option value="ukulele">Ukulele</option>
 		</select>
@@ -70,6 +70,8 @@
 
 <script type="text/javascript">//<![CDATA[
 window.onload= function(){
+   sess_load('lefty', 'prog_lefty');
+   sess_load('instrument', 'prog_instrument');
    change_prog();
 };
 var do_progs= function(key,scale,lefty,tuning,progression) {

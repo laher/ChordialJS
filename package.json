@@ -17,8 +17,7 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-jshint": "~0.5.4",
     "grunt-contrib-watch": "~0.4.3",
-    "assemble": "~0.3.79",
-    "grunt-ejs-static": "~0.1.8"
+    "assemble": "~0.3.79"
   },
   "devDependencies": {},
   "optionalDependencies": {},

@@ -19,11 +19,11 @@
 		</select>
                 <label for="family_lefty">
                    Lefty?</label>
-		<input type="checkbox" id="family_lefty" onchange="change_family();">
+		<input type="checkbox" id="family_lefty" onchange="sess_save('lefty','family_lefty');change_family();">
 
                 <label for="family_tuning">
                    Instrument</label>
-		<select id="family_tuning" onchange="change_family();">
+		<select id="family_tuning" onchange="sess_save('instrument','family_tuning');change_family();">
 			<option value="standard">Guitar</option>
 			<option value="ukulele">Ukulele</option>
 		</select>
@@ -40,6 +40,8 @@
 
 <script type="text/javascript">//<![CDATA[
 window.onload= function(){
+   sess_load('lefty', 'family_lefty');
+   sess_load('instrument', 'family_tuning');
    change_family();
 };
 

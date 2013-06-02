@@ -2,7 +2,7 @@
       <div class="row-fluid">
          <div class="span3">
             <div class="well sidebar-nav">
-               <ul class="nav nav-list">
+               <ul class="nav nav-pills nav-stacked">
                   <li class="nav-header">Samples</li>
                   <li><a href="samples.html">1. Common Progressions</a></li>
                   <li><a href="sample2.html">2. Chord Families</a></li>
@@ -13,3 +13,68 @@
          </div><!--/span-->
          <div class="span9">
 
+<script type='text/javascript'>
+//some shared code for the samples
+function sess_save(c_name, id) {
+	var el = document.getElementById(id);
+	var val = el.value;
+	//console.log('saving '+c_name+'='+val);
+	setCookie(c_name, val, 30);
+}
+function sess_load(c_name, id) {
+	var el = document.getElementById(id);
+	var val = getCookie(c_name);
+	if (val != null) {
+		//console.log('loading '+id+'='+val);
+		if(el.options != null) {
+			for (var i = 0; i < el.options.length; i++) {
+			    if (el.options[i].value == val) {
+				el.options.selectedIndex = i;
+				break;
+			    }
+			}
+		} else if (el.type && el.type === 'checkbox') {
+			if (val == 'on') {
+				el.checked = true;
+			}
+		} else {
+			//otherwise assume textbox ..
+			el.value = val;
+		}
+	}
+}
+
+//get/set cookies functions taken from w3cschools
+function setCookie(c_name,value,exdays)
+{
+	var exdate=new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+	document.cookie=c_name + "=" + c_value;
+}
+function getCookie(c_name)
+{
+	var c_value = document.cookie;
+	var c_start = c_value.indexOf(" " + c_name + "=");
+	if (c_start == -1)
+	{
+	  c_start = c_value.indexOf(c_name + "=");
+	}
+	if (c_start == -1)
+	{
+	  c_value = null;
+	}
+	else
+	  {
+	  c_start = c_value.indexOf("=", c_start) + 1;
+	  var c_end = c_value.indexOf(";", c_start);
+	  if (c_end == -1)
+	  {
+	c_end = c_value.length;
+	}
+	c_value = unescape(c_value.substring(c_start,c_end));
+	}
+	return c_value;
+}
+
+</script>
