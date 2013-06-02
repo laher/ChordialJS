@@ -1,5 +1,10 @@
+
+
 var ChordialJS = ChordialJS || {};
-var console = console || {};
+if (typeof console === "undefined") {
+	/*jslint browser: true */
+	window.console = { log : function(){} };
+}
 
 ChordialJS.chordcalc = {
    //A note can be represented as an integer from C0=0,C1=12,...

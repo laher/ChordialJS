@@ -1,3 +1,4 @@
+/*jslint browser: true */
 /**
  * ChordialJS
  * ==========
@@ -43,8 +44,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 var ChordialJS = ChordialJS || {};
-var console = console || { log: function(){} };
-
+if (typeof console === "undefined") {
+	/*jslint browser: true */
+	window.console = { log : function(){} };
+}
 ChordialJS.parse = {
    parsePositions : function(positions) {
      if (positions === null ||
